@@ -5,5 +5,14 @@
     <string name="up_to_date">Al día</string>
     <string name="dummy_sixteen">16</string>
     <string name="pending">Pendientes</string>
+    <string name="pending_payment">Pendiente</string>
     <string name="dummy_twenty_four">24</string>
+    <string name="payment">Pagó</string>
+    <string name="register">Registrar</string>
+    <string name="register_title">Registro</string>
+    <string name="client_name">Nombre del cliente</string>
+    <string name="client_identification">Cedula</string>
+    <string name="client_phone">Celular</string>
+    <string name="client_plaque">Placa del vehiculo</string>
+    <string name="date">Fecha</string>
 </resources>

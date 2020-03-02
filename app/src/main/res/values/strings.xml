@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ParkingKotlin</string>
+    <string name="clients">Clientes</string>
+    <string name="dummy_forty">40</string>
+    <string name="up_to_date">Al día</string>
+    <string name="dummy_sixteen">16</string>
+    <string name="pending">Pendientes</string>
+    <string name="dummy_twenty_four">24</string>
+</resources>

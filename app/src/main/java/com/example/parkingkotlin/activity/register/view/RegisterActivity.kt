@@ -5,11 +5,19 @@ import android.os.Bundle
 import butterknife.BindView
 import butterknife.ButterKnife
 import android.app.DatePickerDialog
+import android.util.Log
+import android.view.View
+import android.widget.ProgressBar
 import android.widget.Toast
 import butterknife.OnClick
 import com.example.parkingkotlin.R
+import com.example.parkingkotlin.activity.register.presenter.RegisterPresenterImpl
+import com.example.parkingkotlin.database.entity.ClientEntity
 import com.google.android.material.textfield.TextInputEditText
 import com.jaredrummler.materialspinner.MaterialSpinner
+import es.dmoral.toasty.Toasty
+import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.*
 
 
@@ -19,11 +27,29 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView {
     var year: Int = 0
     var day: Int = 0
 
+    @BindView(R.id.register_edtext_client_name)
+    lateinit var clientName: TextInputEditText
+
+    @BindView(R.id.register_edtext_client_phone)
+    lateinit var clientPhone: TextInputEditText
+
+    @BindView(R.id.register_edtext_client_plaque)
+    lateinit var clientPlaque: TextInputEditText
+
+    @BindView(R.id.register_edtext_client_id)
+    lateinit var clientIdentification: TextInputEditText
+
     @BindView(R.id.register_edtext_client_date)
-    lateinit var register_edtext_client_date: TextInputEditText
+    lateinit var clientStartDate: TextInputEditText
 
     @BindView(R.id.register_spinner_prices)
     lateinit var spinerPrices: MaterialSpinner
+
+    @BindView(R.id.progress_bar)
+    lateinit var progressBar: ProgressBar
+
+    var clientRate: Float = 0F
+    lateinit var registerPresenterImpl: RegisterPresenterImpl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,15 +61,16 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView {
         ButterKnife.bind(this)
 
         val calendar: Calendar = Calendar.getInstance()
+        registerPresenterImpl = RegisterPresenterImpl(application, this)
 
         month = calendar.get(Calendar.MONTH)
         year = calendar.get(Calendar.YEAR)
         day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        register_edtext_client_date.setOnClickListener{
+        clientStartDate.setOnClickListener{
 
             val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, myear, mmonth, mday ->
-                register_edtext_client_date.setText("""${mday.twoDigits()}/${(mmonth + 1).twoDigits()}/$myear""")
+                clientStartDate.setText("""${mday.twoDigits()}/${(mmonth + 1).twoDigits()}/$myear""")
             }, year, month, day)
             dpd.show()
         }
@@ -51,29 +78,47 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView {
         spinerPrices.setItems("Tarifa", "$80.000", "$60.000", "$40.000")
 
         spinerPrices.setOnItemSelectedListener { view, position, id, item ->
-            Toast.makeText(view.context, ""+item, Toast.LENGTH_SHORT).show()
+            clientRate = convertToFloat(item.toString())
         }
+    }
+
+    private fun convertToFloat(value: String): Float{
+        val valueFinal: String = value.replace("$", "")
+        return valueFinal.toFloat()
     }
 
     private fun Int.twoDigits() =
         if (this <= 9) "0$this" else this.toString()
 
     @OnClick(R.id.register_btn_register)
-    fun registerClient(){}
+    fun registerClient(){
+        val clientEntity = ClientEntity(
+            clientName = this.clientName.text.toString(),
+            clientIdentification = this.clientIdentification.text.toString(),
+            clientActive = 1,
+            clientPlaque = this.clientPlaque.text.toString(),
+            clientRate = this.clientRate,
+            clientPhone = this.clientPhone.text.toString(),
+            startDate = Date(),
+            dueDate = Date()
+        )
+
+        registerPresenterImpl.registerClient(clientEntity)
+    }
 
     override fun showProgress() {
-
+        progressBar.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-
+        progressBar.visibility = View.INVISIBLE
     }
 
-    override fun showErrorMessage() {
-
+    override fun showErrorMessage(throwable: Throwable) {
+        Toasty.error(this, throwable.message.toString(), Toast.LENGTH_SHORT).show()
     }
 
-    override fun showSuccessMesage() {
-
+    override fun showSuccessMesage(message: String) {
+        Toasty.success(this, message, Toast.LENGTH_SHORT).show()
     }
 }

@@ -5,6 +5,6 @@ interface RegisterActivityView {
     fun showProgress()
     fun hideProgress()
 
-    fun showSuccessMesage()
-    fun showErrorMessage()
+    fun showSuccessMesage(message: String)
+    fun showErrorMessage(throwable: Throwable)
 }

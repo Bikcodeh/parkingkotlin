@@ -1,6 +1,5 @@
 package com.example.parkingkotlin.database.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.parkingkotlin.database.entity.ClientEntity
 
@@ -17,6 +16,6 @@ interface ClientDao {
     fun delete(clientEntity: ClientEntity)
 
     @Query("SELECT * FROM ${ClientEntity.TABLE_NAME} WHERE active = 1 ORDER BY name")
-    fun getClients(): LiveData<List<ClientEntity>>
+    fun getClients(): List<ClientEntity>
 
 }

@@ -1,4 +1,4 @@
-package com.example.parkingkotlin
+package com.example.parkingkotlin.activity.register.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,12 +6,14 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import android.app.DatePickerDialog
 import android.widget.Toast
+import butterknife.OnClick
+import com.example.parkingkotlin.R
 import com.google.android.material.textfield.TextInputEditText
 import com.jaredrummler.materialspinner.MaterialSpinner
 import java.util.*
 
 
-class RegisterActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity(), RegisterActivityView {
 
     var month: Int = 0
     var year: Int = 0
@@ -29,7 +31,7 @@ class RegisterActivity : AppCompatActivity() {
         initComponents()
     }
 
-    fun initComponents(){
+    private fun initComponents(){
         ButterKnife.bind(this)
 
         val calendar: Calendar = Calendar.getInstance()
@@ -53,7 +55,25 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    fun Int.twoDigits() =
+    private fun Int.twoDigits() =
         if (this <= 9) "0$this" else this.toString()
 
+    @OnClick(R.id.register_btn_register)
+    fun registerClient(){}
+
+    override fun showProgress() {
+
+    }
+
+    override fun hideProgress() {
+
+    }
+
+    override fun showErrorMessage() {
+
+    }
+
+    override fun showSuccessMesage() {
+
+    }
 }

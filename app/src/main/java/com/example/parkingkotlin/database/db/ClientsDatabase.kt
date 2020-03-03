@@ -1,13 +1,13 @@
 package com.example.parkingkotlin.database.db
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
+import com.example.parkingkotlin.database.converter.Converters
 import com.example.parkingkotlin.database.dao.ClientDao
 import com.example.parkingkotlin.database.entity.ClientEntity
 
 @Database(entities = [ClientEntity::class], version = 1)
+@TypeConverters(Converters::class)
 abstract class ClientsDatabase: RoomDatabase() {
     abstract fun clientDao(): ClientDao
 

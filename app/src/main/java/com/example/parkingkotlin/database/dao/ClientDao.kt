@@ -15,7 +15,7 @@ interface ClientDao {
     @Delete
     fun delete(clientEntity: ClientEntity)
 
-    @Query("SELECT * FROM ${ClientEntity.TABLE_NAME} WHERE active = 1 ORDER BY name")
+    @Query("SELECT * FROM ${ClientEntity.TABLE_NAME} ORDER BY name")
     fun getClients(): List<ClientEntity>
 
 }

@@ -69,6 +69,8 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButt
     var clientRate: Float = 0F
     lateinit var registerPresenterImpl: RegisterPresenterImpl
 
+    var clientStatus: Int = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -111,10 +113,12 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButt
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
         when(buttonView?.id){
             R.id.register_chip_payment -> {
+                this.clientStatus = 1
                 changeBackgroundChipSelected(chipPay, R.color.green, R.color.very_light_gray, isChecked)
                 enableDisableChips(chipPending, isChecked)
             }
             R.id.register_chip_pending -> {
+                this.clientStatus = 0
                 changeBackgroundChipSelected(chipPending, R.color.brown_shadow, R.color.very_light_gray, isChecked)
                 enableDisableChips(chipPay, isChecked)
             }
@@ -161,7 +165,7 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButt
             val clientEntity = ClientEntity(
                 clientName = this.clientName.text.toString(),
                 clientIdentification = this.clientIdentification.text.toString(),
-                clientActive = 1,
+                clientActive = this.clientStatus,
                 clientPlaque = this.clientPlaque.text.toString(),
                 clientRate = this.clientRate,
                 clientPhone = this.clientPhone.text.toString(),

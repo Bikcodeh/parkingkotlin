@@ -26,8 +26,8 @@ class ClientAdapter(val clientList: List<ClientEntity>): RecyclerView.Adapter<Cl
         if(this.clientList[position].clientActive == 1){
             holder.clientStatus.text = holder.itemView.resources.getString(R.string.up_to_date)
         }else{
-            holder.clientStatus.text = holder.itemView.resources.getString(R.string.pending)
-            holder.clientStatus.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.green))
+            holder.clientStatus.text = holder.itemView.resources.getString(R.string.pending_payment)
+            holder.clientStatus.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.brown_shadow))
         }
     }
 

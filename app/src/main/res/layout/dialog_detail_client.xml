@@ -1,0 +1,104 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dialog_store_information_bottom_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_marginStart="@dimen/sixteen_dp"
+    android:layout_marginEnd="@dimen/sixteen_dp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/detail_client_img_close"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="top|end"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_close_deep_blue"
+        tools:ignore="ContentDescription" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/sixteen_dp"
+        android:layout_marginEnd="@dimen/sixteen_dp"
+        android:layout_marginBottom="@dimen/four_dp"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/sixteen_dp"
+        android:paddingEnd="@dimen/sixteen_dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/client_detail"
+            android:textAlignment="center"
+            android:textSize="@dimen/big_font_size"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/sixteen_dp"
+        android:layout_marginEnd="@dimen/sixteen_dp"
+        android:layout_marginBottom="@dimen/sixteen_dp"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/sixteen_dp"
+        android:paddingEnd="@dimen/sixteen_dp"
+        android:paddingBottom="@dimen/six_dp">
+
+        <TextView
+            android:id="@+id/detail_client_txt_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dummy_detail_name"
+            android:textSize="@dimen/eighteen_font_size" />
+
+        <TextView
+            android:id="@+id/detail_client_txt_identification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dummy_detail_identification"
+            android:textSize="@dimen/eighteen_font_size" />
+
+        <TextView
+            android:id="@+id/detail_client_txt_plaque"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dummy_detail_plaque"
+            android:textSize="@dimen/eighteen_font_size" />
+
+        <TextView
+            android:id="@+id/detail_client_txt_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dummy_detail_phone"
+            android:textSize="@dimen/eighteen_font_size" />
+
+        <TextView
+            android:id="@+id/detail_client_txt_rate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dummy_detail_rate"
+            android:textSize="@dimen/eighteen_font_size" />
+
+        <TextView
+            android:id="@+id/detail_client_txt_start_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dummy_detail_start_date"
+            android:textSize="@dimen/eighteen_font_size" />
+
+        <TextView
+            android:id="@+id/detail_client_txt_due_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dummy_detail_due_date"
+            android:textStyle="bold"
+            android:textSize="@dimen/eighteen_font_size" />
+
+    </LinearLayout>
+
+</LinearLayout>

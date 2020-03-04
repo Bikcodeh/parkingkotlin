@@ -2,6 +2,7 @@
 <resources>
 
     <dimen name="normal_font_size">16sp</dimen>
+    <dimen name="eighteen_font_size">18sp</dimen>
     <dimen name="big_font_size">20sp</dimen>
     <dimen name="sixteen_dp">16dp</dimen>
     <dimen name="eight_dp">8dp</dimen>

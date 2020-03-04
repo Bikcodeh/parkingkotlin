@@ -20,4 +20,12 @@
     <string name="dummy_plaque">WUK-872</string>
     <string name="title_register">Registro del cliente</string>
     <string name="title_list_clients">Listado de clientes</string>
+    <string name="client_detail">Detalle del cliente</string>
+    <string name="dummy_detail_name">Nombre: Alberto Jose Arango</string>
+    <string name="dummy_detail_identification">Cedula: 1118365874</string>
+    <string name="dummy_detail_plaque">Placa: WJK-784</string>
+    <string name="dummy_detail_phone">Celular: 3154786541</string>
+    <string name="dummy_detail_rate">Tarifa: $80.000</string>
+    <string name="dummy_detail_start_date">Fecha de ingreso: 04/05/2020</string>
+    <string name="dummy_detail_due_date">Proximo corte: 04/06/2020</string>
 </resources>

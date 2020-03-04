@@ -1,15 +1,20 @@
 package com.example.parkingkotlin.adapter
 
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.parkingkotlin.R
 import com.example.parkingkotlin.database.entity.ClientEntity
+import com.example.parkingkotlin.util.DetailClientDialog
 
-class ClientAdapter(val clientList: List<ClientEntity>): RecyclerView.Adapter<ClientAdapter.ClientViewHolder>() {
+class ClientAdapter(val clientList: List<ClientEntity>): RecyclerView.Adapter<ClientAdapter.ClientViewHolder>(), View.OnClickListener {
+
+    private val listener: View.OnClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClientViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.item_list_client, parent, false)
@@ -29,6 +34,15 @@ class ClientAdapter(val clientList: List<ClientEntity>): RecyclerView.Adapter<Cl
             holder.clientStatus.text = holder.itemView.resources.getString(R.string.pending_payment)
             holder.clientStatus.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.brown_shadow))
         }
+        holder.itemView.setOnClickListener{
+            val detailClientDialog = DetailClientDialog(holder.itemView.context as Activity)
+            detailClientDialog.show((holder.itemView.context as AppCompatActivity).supportFragmentManager, "Dialog")
+            detailClientDialog.isCancelable = false
+        }
+    }
+
+    override fun onClick(v: View?) {
+        listener?.onClick(v)
     }
 
     class ClientViewHolder(view: View): RecyclerView.ViewHolder(view){

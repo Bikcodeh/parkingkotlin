@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.example.parkingkotlin.R
 import com.example.parkingkotlin.activity.listClients.presenter.ListClientsPresenter
 import com.example.parkingkotlin.activity.listClients.presenter.ListClientsPresenterImpl
@@ -24,6 +26,9 @@ class ListClientsActivity : AppCompatActivity(), ListClientsView {
     @BindView(R.id.progress_bar)
     lateinit var progressBar: ProgressBar
 
+    @BindView(R.id.main_toolbar)
+    lateinit var listClientsToolbar: Toolbar
+
     lateinit var presenter: ListClientsPresenterImpl
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +39,11 @@ class ListClientsActivity : AppCompatActivity(), ListClientsView {
 
     private fun initComponents(){
         ButterKnife.bind(this)
+
+        setSupportActionBar(listClientsToolbar)
+        title = resources.getString(R.string.title_list_clients)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         presenter = ListClientsPresenterImpl(application, this)
 
@@ -53,6 +63,16 @@ class ListClientsActivity : AppCompatActivity(), ListClientsView {
     }
     override fun showMessageError(throwable: Throwable) {
         Toasty.error(this, throwable.message.toString(), Toast.LENGTH_LONG).show()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Animatoo.animateSlideLeft(this)
     }
 
 }

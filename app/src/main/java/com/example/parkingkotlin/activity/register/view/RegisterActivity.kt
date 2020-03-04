@@ -11,8 +11,10 @@ import android.view.View
 import android.widget.CompoundButton
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import butterknife.OnClick
+import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.example.parkingkotlin.R
 import com.example.parkingkotlin.activity.register.presenter.RegisterPresenterImpl
 import com.example.parkingkotlin.database.entity.ClientEntity
@@ -21,8 +23,6 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.jaredrummler.materialspinner.MaterialSpinner
 import es.dmoral.toasty.Toasty
-import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.*
 
 
@@ -66,6 +66,9 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButt
     @BindView(R.id.register_chip_pending)
     lateinit var chipPending: Chip
 
+    @BindView(R.id.main_toolbar)
+    lateinit var registerToolbar: Toolbar
+
     var clientRate: Float = 0F
     lateinit var registerPresenterImpl: RegisterPresenterImpl
 
@@ -80,6 +83,11 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButt
 
     private fun initComponents(){
         ButterKnife.bind(this)
+
+        setSupportActionBar(registerToolbar)
+        title = resources.getString(R.string.title_register)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         val calendar: Calendar = Calendar.getInstance()
         registerPresenterImpl = RegisterPresenterImpl(application, this)
@@ -207,5 +215,15 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButt
 
     override fun showSuccessMesage(message: String) {
         Toasty.success(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Animatoo.animateSlideLeft(this)
     }
 }

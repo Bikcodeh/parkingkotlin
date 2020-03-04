@@ -18,4 +18,6 @@
     <string name="register_clients">Registrar</string>
     <string name="dummy_name">Jeremy Mathias Amadeus</string>
     <string name="dummy_plaque">WUK-872</string>
+    <string name="title_register">Registro del cliente</string>
+    <string name="title_list_clients">Listado de clientes</string>
 </resources>

@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.register.view.RegisterActivity">
 
+    <include
+        android:id="@+id/register_toolbar"
+        layout="@layout/action_bar" />
+
     <TextView
         android:id="@+id/register_txt_register"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/register_toolbar"
         android:layout_margin="@dimen/sixteen_dp"
         android:text="@string/register"
-        android:textSize="@dimen/normal_font_size"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="@dimen/normal_font_size" />
 
     <LinearLayout
         android:id="@+id/register_llayout_name_id"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/register_txt_register"
         android:layout_marginLeft="@dimen/sixteen_dp"
         android:layout_marginRight="@dimen/sixteen_dp"
         android:baselineAligned="false"
-        android:orientation="horizontal"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_txt_register">
+        android:orientation="horizontal">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/register_tiinputlayout_client_name"
@@ -72,14 +72,12 @@
 
     <LinearLayout
         android:id="@+id/register_llyout_id_price"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/register_llayout_name_id"
         android:layout_marginLeft="@dimen/sixteen_dp"
         android:layout_marginRight="@dimen/sixteen_dp"
-        android:orientation="horizontal"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_llayout_name_id">
+        android:orientation="horizontal">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/register_tiinputlayout_client_phone"
@@ -111,14 +109,12 @@
 
     <LinearLayout
         android:id="@+id/register_llayout_plaque_date"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/register_llyout_id_price"
         android:layout_margin="@dimen/sixteen_dp"
         android:baselineAligned="false"
-        android:orientation="horizontal"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_llyout_id_price">
+        android:orientation="horizontal">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/register_tiinputlayout_client_plaque"
@@ -164,14 +160,12 @@
 
     <LinearLayout
         android:id="@+id/register_llayout_chips"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/register_llayout_plaque_date"
         android:layout_marginLeft="@dimen/sixteen_dp"
         android:layout_marginRight="@dimen/sixteen_dp"
-        android:orientation="horizontal"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_llayout_plaque_date">
+        android:orientation="horizontal">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/register_chip_payment"
@@ -201,14 +195,12 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/register_btn_register"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/sixteen_dp"
         android:text="@string/register"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_llayout_chips" />
+        android:layout_below="@+id/register_llayout_chips"/>
 
     <include layout="@layout/progress_bar" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

@@ -16,4 +16,6 @@
     <string name="client_plaque">Placa del vehiculo</string>
     <string name="date">Fecha</string>
     <string name="register_clients">Registrar</string>
+    <string name="dummy_name">Jeremy Mathias Amadeus</string>
+    <string name="dummy_plaque">WUK-872</string>
 </resources>

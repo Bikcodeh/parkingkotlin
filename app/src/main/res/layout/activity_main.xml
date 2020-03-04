@@ -103,7 +103,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/sixteen_dp"
+            android:layout_margin="@dimen/eight_dp"
             android:layout_weight="1"
             app:cardCornerRadius="@dimen/eight_dp"
             app:cardElevation="@dimen/two_dp"
@@ -123,7 +123,7 @@
                     android:id="@+id/main_img_register"
                     android:layout_width="@dimen/width_image_main"
                     android:layout_height="@dimen/width_image_main"
-                    android:src="@drawable/plus"
+                    android:src="@drawable/ic_person_add_depp_blue"
                     tools:ignore="ContentDescription" />
 
                 <TextView
@@ -141,7 +141,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/sixteen_dp"
+            android:layout_margin="@dimen/eight_dp"
             android:layout_weight="1"
             app:cardCornerRadius="@dimen/eight_dp"
             app:cardElevation="@dimen/two_dp"
@@ -161,7 +161,7 @@
                     android:id="@+id/main_img_list"
                     android:layout_width="@dimen/width_image_main"
                     android:layout_height="@dimen/width_image_main"
-                    android:src="@drawable/team"
+                    android:src="@drawable/ic_people_deep_blue"
                     tools:ignore="ContentDescription" />
 
                 <TextView
@@ -183,7 +183,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/sixteen_dp"
         android:orientation="horizontal"
-        android:paddingBottom="40dp"
+        android:paddingBottom="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
@@ -191,8 +191,8 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/sixteen_dp"
-            android:layout_marginRight="@dimen/sixteen_dp"
+            android:layout_marginLeft="@dimen/eight_dp"
+            android:layout_marginRight="@dimen/eight_dp"
             android:layout_weight="1"
             app:cardCornerRadius="@dimen/eight_dp"
             app:cardElevation="@dimen/two_dp"
@@ -228,8 +228,8 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/sixteen_dp"
-            android:layout_marginRight="@dimen/sixteen_dp"
+            android:layout_marginLeft="@dimen/eight_dp"
+            android:layout_marginRight="@dimen/eight_dp"
             android:layout_weight="1"
             app:cardCornerRadius="@dimen/eight_dp"
             app:cardElevation="@dimen/two_dp"

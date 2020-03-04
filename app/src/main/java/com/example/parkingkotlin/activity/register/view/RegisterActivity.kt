@@ -14,6 +14,7 @@ import com.example.parkingkotlin.R
 import com.example.parkingkotlin.activity.register.presenter.RegisterPresenterImpl
 import com.example.parkingkotlin.database.entity.ClientEntity
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.jaredrummler.materialspinner.MaterialSpinner
 import es.dmoral.toasty.Toasty
 import java.text.SimpleDateFormat
@@ -27,11 +28,17 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView {
     var year: Int = 0
     var day: Int = 0
 
+    @BindView(R.id.register_tiinputlayout_client_name)
+    lateinit var clientNameTextLayout: TextInputLayout
+
     @BindView(R.id.register_edtext_client_name)
     lateinit var clientName: TextInputEditText
 
     @BindView(R.id.register_edtext_client_phone)
     lateinit var clientPhone: TextInputEditText
+
+    @BindView(R.id.register_tiinputlayout_client_plaque)
+    lateinit var clientPlaqueTextLayout: TextInputLayout
 
     @BindView(R.id.register_edtext_client_plaque)
     lateinit var clientPlaque: TextInputEditText
@@ -92,18 +99,34 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView {
 
     @OnClick(R.id.register_btn_register)
     fun registerClient(){
-        val clientEntity = ClientEntity(
-            clientName = this.clientName.text.toString(),
-            clientIdentification = this.clientIdentification.text.toString(),
-            clientActive = 1,
-            clientPlaque = this.clientPlaque.text.toString(),
-            clientRate = this.clientRate,
-            clientPhone = this.clientPhone.text.toString(),
-            startDate = Date(),
-            dueDate = Date()
-        )
 
-        registerPresenterImpl.registerClient(clientEntity)
+
+        if(validateFields(this.clientName, this.clientNameTextLayout) && validateFields(this.clientPlaque, this.clientPlaqueTextLayout)){
+            val clientEntity = ClientEntity(
+                clientName = this.clientName.text.toString(),
+                clientIdentification = this.clientIdentification.text.toString(),
+                clientActive = 1,
+                clientPlaque = this.clientPlaque.text.toString(),
+                clientRate = this.clientRate,
+                clientPhone = this.clientPhone.text.toString(),
+                startDate = Date(),
+                dueDate = Date()
+            )
+
+            registerPresenterImpl.registerClient(clientEntity)
+        }else{
+            Toasty.warning(this, "Campos obligatorios", Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
+    private fun validateFields(textInputEditText: TextInputEditText, textInputLayout: TextInputLayout): Boolean {
+        return if(textInputEditText.text.toString() == ""){
+            textInputLayout.error = "Requerido"
+            false
+        } else{
+            true
+        }
     }
 
     override fun showProgress() {

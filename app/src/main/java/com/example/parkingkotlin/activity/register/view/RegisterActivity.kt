@@ -5,14 +5,18 @@ import android.os.Bundle
 import butterknife.BindView
 import butterknife.ButterKnife
 import android.app.DatePickerDialog
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.widget.CompoundButton
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import butterknife.OnClick
 import com.example.parkingkotlin.R
 import com.example.parkingkotlin.activity.register.presenter.RegisterPresenterImpl
 import com.example.parkingkotlin.database.entity.ClientEntity
+import com.google.android.material.chip.Chip
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.jaredrummler.materialspinner.MaterialSpinner
@@ -22,7 +26,8 @@ import java.time.LocalDate
 import java.util.*
 
 
-class RegisterActivity : AppCompatActivity(), RegisterActivityView {
+class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButton.OnCheckedChangeListener {
+
 
     var month: Int = 0
     var year: Int = 0
@@ -55,6 +60,12 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView {
     @BindView(R.id.progress_bar)
     lateinit var progressBar: ProgressBar
 
+    @BindView(R.id.register_chip_payment)
+    lateinit var chipPay: Chip
+
+    @BindView(R.id.register_chip_pending)
+    lateinit var chipPending: Chip
+
     var clientRate: Float = 0F
     lateinit var registerPresenterImpl: RegisterPresenterImpl
 
@@ -62,6 +73,7 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         initComponents()
+        setOnClicks()
     }
 
     private fun initComponents(){
@@ -87,6 +99,51 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView {
         spinerPrices.setOnItemSelectedListener { view, position, id, item ->
             clientRate = convertToFloat(item.toString())
         }
+
+
+    }
+
+    private fun setOnClicks(){
+        chipPay.setOnCheckedChangeListener(this)
+        chipPending.setOnCheckedChangeListener(this)
+    }
+
+    override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+        when(buttonView?.id){
+            R.id.register_chip_payment -> {
+                changeBackgroundChipSelected(chipPay, R.color.green, R.color.very_light_gray, isChecked)
+                enableDisableChips(chipPending, isChecked)
+            }
+            R.id.register_chip_pending -> {
+                changeBackgroundChipSelected(chipPending, R.color.brown_shadow, R.color.very_light_gray, isChecked)
+                enableDisableChips(chipPay, isChecked)
+            }
+        }
+    }
+
+    private fun changeBackgroundChipSelected(
+        chip: Chip,
+        colorChecked: Int,
+        colorNotChecked: Int,
+        checked: Boolean
+    ) {
+        if(checked){
+            chip.setChipBackgroundColorResource(colorChecked)
+            chip.setTextColor(ContextCompat.getColor(this, R.color.white))
+        }else{
+            chip.setChipBackgroundColorResource(colorNotChecked)
+            chip.setTextColor(ContextCompat.getColor(this, R.color.black))
+        }
+    }
+
+    private fun enableDisableChips(option: Chip, checked: Boolean) {
+        if (checked) {
+            option.isEnabled = false
+            option.setTextColor(ContextCompat.getColor(this, R.color.light_gray))
+        }else{
+            option.isEnabled = true
+            option.setTextColor(ContextCompat.getColor(this, R.color.black))
+        }
     }
 
     private fun convertToFloat(value: String): Float{
@@ -100,8 +157,7 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView {
     @OnClick(R.id.register_btn_register)
     fun registerClient(){
 
-
-        if(validateFields(this.clientName, this.clientNameTextLayout) && validateFields(this.clientPlaque, this.clientPlaqueTextLayout)){
+        if(validateFields( listOf(this.clientName, this.clientPlaque), listOf(this.clientNameTextLayout, this.clientPlaqueTextLayout))){
             val clientEntity = ClientEntity(
                 clientName = this.clientName.text.toString(),
                 clientIdentification = this.clientIdentification.text.toString(),
@@ -120,13 +176,17 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView {
 
     }
 
-    private fun validateFields(textInputEditText: TextInputEditText, textInputLayout: TextInputLayout): Boolean {
-        return if(textInputEditText.text.toString() == ""){
-            textInputLayout.error = "Requerido"
-            false
-        } else{
-            true
-        }
+    private fun validateFields(listTextInputEditText: List<TextInputEditText>, listTextInputLayout: List<TextInputLayout>): Boolean {
+        var counter = 0
+        for((index, editText) in listTextInputEditText.withIndex()){
+           if(TextUtils.isEmpty(editText.text.toString())){
+                listTextInputLayout[index].error = "Requerido"
+                counter++
+           }else{
+               listTextInputLayout[index].error = ""
+           }
+       }
+        return counter == 0
     }
 
     override fun showProgress() {

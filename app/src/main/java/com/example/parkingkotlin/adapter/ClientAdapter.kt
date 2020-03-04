@@ -10,7 +10,9 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.parkingkotlin.R
 import com.example.parkingkotlin.database.entity.ClientEntity
+import com.example.parkingkotlin.events.ClientEvent
 import com.example.parkingkotlin.util.DetailClientDialog
+import org.greenrobot.eventbus.EventBus
 
 class ClientAdapter(val clientList: List<ClientEntity>): RecyclerView.Adapter<ClientAdapter.ClientViewHolder>(), View.OnClickListener {
 
@@ -35,6 +37,7 @@ class ClientAdapter(val clientList: List<ClientEntity>): RecyclerView.Adapter<Cl
             holder.clientStatus.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.brown_shadow))
         }
         holder.itemView.setOnClickListener{
+            EventBus.getDefault().postSticky( ClientEvent(this.clientList[position]))
             val detailClientDialog = DetailClientDialog(holder.itemView.context as Activity)
             detailClientDialog.show((holder.itemView.context as AppCompatActivity).supportFragmentManager, "Dialog")
             detailClientDialog.isCancelable = false

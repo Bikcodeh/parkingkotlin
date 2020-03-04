@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.example.parkingkotlin.R
+import com.example.parkingkotlin.activity.listClients.presenter.ListClientsPresenter
+import com.example.parkingkotlin.activity.listClients.presenter.ListClientsPresenterImpl
 import com.example.parkingkotlin.adapter.ClientAdapter
 import com.example.parkingkotlin.database.entity.ClientEntity
 import es.dmoral.toasty.Toasty
@@ -22,6 +24,8 @@ class ListClientsActivity : AppCompatActivity(), ListClientsView {
     @BindView(R.id.progress_bar)
     lateinit var progressBar: ProgressBar
 
+    lateinit var presenter: ListClientsPresenterImpl
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_clients)
@@ -31,8 +35,11 @@ class ListClientsActivity : AppCompatActivity(), ListClientsView {
     private fun initComponents(){
         ButterKnife.bind(this)
 
+        presenter = ListClientsPresenterImpl(application, this)
+
         recyclerClients.setHasFixedSize(true)
         recyclerClients.layoutManager = LinearLayoutManager(this)
+        this.presenter.getClients()
     }
 
     override fun showProgress() {

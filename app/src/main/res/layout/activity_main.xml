@@ -120,6 +120,7 @@
                 tools:ignore="UseCompoundDrawables">
 
                 <ImageView
+                    android:id="@+id/main_img_register"
                     android:layout_width="@dimen/width_image_main"
                     android:layout_height="@dimen/width_image_main"
                     android:src="@drawable/ic_launcher_background"
@@ -128,7 +129,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/clients"
+                    android:text="@string/register_clients"
                     android:textAlignment="center"
 
                     android:textSize="@dimen/normal_font_size" />
@@ -157,6 +158,7 @@
                 tools:ignore="UseCompoundDrawables">
 
                 <ImageView
+                    android:id="@+id/main_img_list"
                     android:layout_width="@dimen/width_image_main"
                     android:layout_height="@dimen/width_image_main"
                     android:src="@drawable/ic_launcher_background"

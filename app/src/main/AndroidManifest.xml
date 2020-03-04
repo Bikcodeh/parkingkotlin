@@ -13,21 +13,13 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".activity.listClients.view.ListClientsActivity"></activity>
         <activity android:name=".activity.register.view.RegisterActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".MainActivity">
-
-            <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            -->
         </activity>
     </application>
 

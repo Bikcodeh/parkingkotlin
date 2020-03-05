@@ -17,7 +17,7 @@ interface ClientDao {
     fun delete(clientEntity: ClientEntity)
 
     @Query("SELECT * FROM ${ClientEntity.TABLE_NAME} ORDER BY name")
-    fun getClients(): List<ClientEntity>
+    fun getClients(): LiveData<List<ClientEntity>>
 
     @Query("SELECT COUNT(*) FROM ${ClientEntity.TABLE_NAME}")
     fun getTotalClients(): LiveData<Int>

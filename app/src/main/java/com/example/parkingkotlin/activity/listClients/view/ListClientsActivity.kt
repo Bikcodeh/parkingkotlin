@@ -45,7 +45,7 @@ class ListClientsActivity : AppCompatActivity(), ListClientsView {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        presenter = ListClientsPresenterImpl(application, this)
+        presenter = ListClientsPresenterImpl(this, application, this)
 
         recyclerClients.setHasFixedSize(true)
         recyclerClients.layoutManager = LinearLayoutManager(this)

@@ -11,6 +11,7 @@ import java.lang.Exception
 class ListClientsRepositoryImpl(application: Application ,private val presenter: ListClientsPresenter): ListClientsRepository {
 
     private val clientDao: ClientDao? = ClientsDatabase.getInstance(application)?.clientDao()
+    private val statusActive = 1
 
     override fun getAllClients() {
 
@@ -24,6 +25,23 @@ class ListClientsRepositoryImpl(application: Application ,private val presenter:
             }catch (e: Exception){
                 presenter.onErrorGetClients(e as Throwable)
                 Log.d("ERROR OBTENIENDO USUARIOS", e.message.toString())
+            }
+        }
+    }
+
+    override fun updateClientStatus(idClient: Int) {
+
+        var updated: Int
+
+        if(clientDao != null){
+            try{
+                kotlin.run {
+                    updated = clientDao.updateStatus(statusActive, idClient)
+                    presenter.onSuccessUpdate(updated)
+                    Log.d("ACTUALIZADO ***--*-", updated.toString())
+                }
+            }catch (exception: Exception){
+                presenter.onErrorUpdate(exception)
             }
         }
     }

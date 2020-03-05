@@ -9,16 +9,18 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.content.ContextCompat
 import com.example.parkingkotlin.R
 import com.example.parkingkotlin.database.entity.ClientEntity
 import com.example.parkingkotlin.events.ClientEvent
+import com.example.parkingkotlin.events.ClientStatusEvent
 import com.google.android.material.button.MaterialButton
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
-class DetailClientDialog(val activity: Activity): AppCompatDialogFragment() {
+class DetailClientDialog(val activity: AppCompatActivity): AppCompatDialogFragment() {
 
     private lateinit var clientName: TextView
     private lateinit var clientIdentification: TextView
@@ -28,7 +30,7 @@ class DetailClientDialog(val activity: Activity): AppCompatDialogFragment() {
     private lateinit var clientStartDate: TextView
     private lateinit var clientDueDate: TextView
     private lateinit var buttonPaid: MaterialButton
-
+    private var clientStatus = 1
 
     @SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -50,7 +52,8 @@ class DetailClientDialog(val activity: Activity): AppCompatDialogFragment() {
         buttonPaid = view.findViewById(R.id.detail_client_btn_paid)
 
         buttonPaid.setOnClickListener{
-
+            EventBus.getDefault().postSticky(ClientStatusEvent(clientStatus))
+            dismiss()
         }
 
         imageClose.setOnClickListener{

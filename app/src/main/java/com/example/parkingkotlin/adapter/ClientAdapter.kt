@@ -1,6 +1,5 @@
 package com.example.parkingkotlin.adapter
 
-import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,7 @@ import com.example.parkingkotlin.events.ClientEvent
 import com.example.parkingkotlin.util.DetailClientDialog
 import org.greenrobot.eventbus.EventBus
 
-class ClientAdapter(val clientList: List<ClientEntity>): RecyclerView.Adapter<ClientAdapter.ClientViewHolder>(), View.OnClickListener {
+class ClientAdapter(val activity: AppCompatActivity, private val clientList: List<ClientEntity>): RecyclerView.Adapter<ClientAdapter.ClientViewHolder>(), View.OnClickListener {
 
     private val listener: View.OnClickListener? = null
 
@@ -38,7 +37,7 @@ class ClientAdapter(val clientList: List<ClientEntity>): RecyclerView.Adapter<Cl
         }
         holder.itemView.setOnClickListener{
             EventBus.getDefault().postSticky( ClientEvent(this.clientList[position]))
-            val detailClientDialog = DetailClientDialog(holder.itemView.context as Activity)
+            val detailClientDialog = DetailClientDialog(activity)
             detailClientDialog.show((holder.itemView.context as AppCompatActivity).supportFragmentManager, "Dialog")
             detailClientDialog.isCancelable = false
         }

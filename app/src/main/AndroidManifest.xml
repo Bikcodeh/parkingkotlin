@@ -14,7 +14,7 @@
         <activity android:name=".activity.listClients.view.ListClientsActivity"></activity>
         <activity android:name=".activity.register.view.RegisterActivity">
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.main.view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -18,4 +18,10 @@ interface ClientDao {
     @Query("SELECT * FROM ${ClientEntity.TABLE_NAME} ORDER BY name")
     fun getClients(): List<ClientEntity>
 
+    @Query("SELECT COUNT(*) FROM ${ClientEntity.TABLE_NAME}")
+    fun getTotalClients(): Int
+
+    @Query("SELECT COUNT(*) FROM ${ClientEntity.TABLE_NAME} WHERE active = :activeUser")
+    fun getTotalClientsFiltering(activeUser: Int): Int
+
 }

@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity(), MainView {
 
     private fun initComponents(){
         ButterKnife.bind(this)
-        presenter = MainPresenterImpl((application), this)
+        presenter = MainPresenterImpl(this ,application, this)
 
         presenter.getTotalClients()
     }

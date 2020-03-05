@@ -1,5 +1,6 @@
 package com.example.parkingkotlin.database.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.parkingkotlin.database.entity.ClientEntity
 
@@ -19,9 +20,9 @@ interface ClientDao {
     fun getClients(): List<ClientEntity>
 
     @Query("SELECT COUNT(*) FROM ${ClientEntity.TABLE_NAME}")
-    fun getTotalClients(): Int
+    fun getTotalClients(): LiveData<Int>
 
     @Query("SELECT COUNT(*) FROM ${ClientEntity.TABLE_NAME} WHERE active = :activeUser")
-    fun getTotalClientsFiltering(activeUser: Int): Int
+    fun getTotalClientsFiltering(activeUser: Int): LiveData<Int>
 
 }

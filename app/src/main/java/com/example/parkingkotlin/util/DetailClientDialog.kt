@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import com.example.parkingkotlin.R
 import com.example.parkingkotlin.database.entity.ClientEntity
 import com.example.parkingkotlin.events.ClientEvent
+import com.google.android.material.button.MaterialButton
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
@@ -26,6 +27,7 @@ class DetailClientDialog(val activity: Activity): AppCompatDialogFragment() {
     private lateinit var clientRate: TextView
     private lateinit var clientStartDate: TextView
     private lateinit var clientDueDate: TextView
+    private lateinit var buttonPaid: MaterialButton
 
 
     @SuppressLint("InflateParams")
@@ -45,6 +47,11 @@ class DetailClientDialog(val activity: Activity): AppCompatDialogFragment() {
         clientStartDate = view.findViewById(R.id.detail_client_txt_start_date)
         clientDueDate = view.findViewById(R.id.detail_client_txt_due_date)
         clientDueDate.setTextColor(ContextCompat.getColor(view.context, R.color.brown_shadow))
+        buttonPaid = view.findViewById(R.id.detail_client_btn_paid)
+
+        buttonPaid.setOnClickListener{
+
+        }
 
         imageClose.setOnClickListener{
             dismiss()
@@ -71,5 +78,11 @@ class DetailClientDialog(val activity: Activity): AppCompatDialogFragment() {
         clientRate.text = String.format("Tarifa: %s",clientEvent.clientEntity.clientRate.toString())
         clientStartDate.text = String.format("Fecha de ingreso: %s", SimpleDateFormat("dd-MM-yyyy").format(clientEvent.clientEntity.startDate))
         clientDueDate.text = String.format("Próximo corte: %s", SimpleDateFormat("dd-MM-yyyy").format(clientEvent.clientEntity.startDate))
+
+        if(clientEvent.clientEntity.clientActive == 0){
+            buttonPaid.visibility = View.VISIBLE
+        }else{
+            buttonPaid.visibility = View.GONE
+        }
     }
 }

@@ -28,4 +28,5 @@
     <string name="dummy_detail_rate">Tarifa: $80.000</string>
     <string name="dummy_detail_start_date">Fecha de ingreso: 04/05/2020</string>
     <string name="dummy_detail_due_date">Proximo corte: 04/06/2020</string>
+    <string name="paid">Pagó</string>
 </resources>

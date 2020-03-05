@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ParkingKotlin</string>
+    <string name="app_name">Parking</string>
     <string name="clients">Clientes</string>
     <string name="dummy_forty">40</string>
     <string name="up_to_date">Al día</string>

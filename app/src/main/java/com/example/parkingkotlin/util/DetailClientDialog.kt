@@ -4,11 +4,13 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.core.content.ContextCompat
 import com.example.parkingkotlin.R
 import com.example.parkingkotlin.database.entity.ClientEntity
 import com.example.parkingkotlin.events.ClientEvent
@@ -17,13 +19,13 @@ import org.greenrobot.eventbus.Subscribe
 
 class DetailClientDialog(val activity: Activity): AppCompatDialogFragment() {
 
-    var clientName: TextView? = null
-    var clientIdentification: TextView? = null
-    var clientPhone: TextView? = null
-    var clientPlaque: TextView? = null
-    var clientRate: TextView? = null
-    var clientStartDate: TextView? = null
-    var clientDueDate: TextView? = null
+    private lateinit var clientName: TextView
+    private lateinit var clientIdentification: TextView
+    private lateinit var clientPhone: TextView
+    private lateinit var clientPlaque: TextView
+    private lateinit var clientRate: TextView
+    private lateinit var clientStartDate: TextView
+    private lateinit var clientDueDate: TextView
 
 
     @SuppressLint("InflateParams")
@@ -42,6 +44,7 @@ class DetailClientDialog(val activity: Activity): AppCompatDialogFragment() {
         clientPlaque = view.findViewById(R.id.detail_client_txt_plaque)
         clientStartDate = view.findViewById(R.id.detail_client_txt_start_date)
         clientDueDate = view.findViewById(R.id.detail_client_txt_due_date)
+        clientDueDate.setTextColor(ContextCompat.getColor(view.context, R.color.brown_shadow))
 
         imageClose.setOnClickListener{
             dismiss()
@@ -61,10 +64,12 @@ class DetailClientDialog(val activity: Activity): AppCompatDialogFragment() {
 
     @Subscribe(sticky = true)
     fun onEvent(clientEvent: ClientEvent){
-        clientName?.text = clientEvent.clientEntity.clientName
-        clientIdentification?.text = clientEvent.clientEntity.clientIdentification
-        clientPhone?.text = clientEvent.clientEntity.clientPhone
-        clientPlaque?.text = clientEvent.clientEntity.clientPlaque
-        clientRate?.text = clientEvent.clientEntity.clientRate.toString()
+        clientName.text = String.format("Nombre: %s", clientEvent.clientEntity.clientName)
+        clientIdentification.text = String.format("Cedula: %s" ,clientEvent.clientEntity.clientIdentification)
+        clientPhone.text = String.format("Celular: %s", clientEvent.clientEntity.clientPhone)
+        clientPlaque.text = String.format("Placa: %s", clientEvent.clientEntity.clientPlaque)
+        clientRate.text = String.format("Tarifa: %s",clientEvent.clientEntity.clientRate.toString())
+        clientStartDate.text = String.format("Fecha de ingreso: %s", SimpleDateFormat("dd-MM-yyyy").format(clientEvent.clientEntity.startDate))
+        clientDueDate.text = String.format("Próximo corte: %s", SimpleDateFormat("dd-MM-yyyy").format(clientEvent.clientEntity.startDate))
     }
 }

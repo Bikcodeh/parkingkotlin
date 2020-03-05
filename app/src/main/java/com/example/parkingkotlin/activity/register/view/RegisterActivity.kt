@@ -23,6 +23,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.jaredrummler.materialspinner.MaterialSpinner
 import es.dmoral.toasty.Toasty
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -99,7 +100,7 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButt
         clientStartDate.setOnClickListener{
 
             val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, myear, mmonth, mday ->
-                clientStartDate.setText("""${mday.twoDigits()}/${(mmonth + 1).twoDigits()}/$myear""")
+                clientStartDate.setText("""${mday.twoDigits()}-${(mmonth + 1).twoDigits()}-$myear""")
             }, year, month, day)
             dpd.show()
         }
@@ -177,7 +178,7 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButt
                 clientPlaque = this.clientPlaque.text.toString(),
                 clientRate = this.clientRate,
                 clientPhone = this.clientPhone.text.toString(),
-                startDate = Date(),
+                startDate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse(this.clientStartDate.text.toString()),
                 dueDate = Date()
             )
 

@@ -6,6 +6,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import android.app.DatePickerDialog
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.ProgressBar
@@ -29,6 +30,8 @@ import java.util.*
 
 class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButton.OnCheckedChangeListener {
 
+
+    lateinit var calendar: Calendar
 
     var month: Int = 0
     var year: Int = 0
@@ -94,10 +97,9 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButt
 
         dialog = SpotsDialog.Builder().setContext(this).setTheme(R.style.Custom).build()
 
-
-        val calendar: Calendar = Calendar.getInstance()
         registerPresenterImpl = RegisterPresenterImpl(application, this)
 
+        calendar = Calendar.getInstance()
         month = calendar.get(Calendar.MONTH)
         year = calendar.get(Calendar.YEAR)
         day = calendar.get(Calendar.DAY_OF_MONTH)
@@ -172,10 +174,20 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButt
     private fun Int.twoDigits() =
         if (this <= 9) "0$this" else this.toString()
 
+    private fun stringToDate(value: String): Date {
+        return SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse(value)
+    }
+
     @OnClick(R.id.register_btn_register)
     fun registerClient(){
 
         if(validateFields( listOf(this.clientName, this.clientPlaque), listOf(this.clientNameTextLayout, this.clientPlaqueTextLayout))){
+
+            var date = stringToDate(this.clientStartDate.text.toString())
+            calendar.time = date
+            calendar.add(Calendar.MONTH, 1)
+            date = calendar.time
+
             val clientEntity = ClientEntity(
                 clientName = this.clientName.text.toString(),
                 clientIdentification = this.clientIdentification.text.toString(),
@@ -183,8 +195,8 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButt
                 clientPlaque = this.clientPlaque.text.toString(),
                 clientRate = this.clientRate,
                 clientPhone = this.clientPhone.text.toString(),
-                startDate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse(this.clientStartDate.text.toString()),
-                dueDate = Date()
+                startDate = stringToDate(this.clientStartDate.text.toString()),
+                dueDate = date
             )
 
             registerPresenterImpl.registerClient(clientEntity)

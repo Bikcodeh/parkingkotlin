@@ -18,6 +18,7 @@ import com.example.parkingkotlin.events.ClientIdEvent
 import com.google.android.material.button.MaterialButton
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import java.util.*
 
 class DetailClientDialog(val activity: AppCompatActivity): AppCompatDialogFragment() {
 
@@ -51,7 +52,6 @@ class DetailClientDialog(val activity: AppCompatActivity): AppCompatDialogFragme
         buttonPaid = view.findViewById(R.id.detail_client_btn_paid)
 
         buttonPaid.setOnClickListener{
-            Log.d("ID CLIENTE: ", clientId.toString())
             EventBus.getDefault().postSticky(ClientIdEvent(clientId))
             dismiss()
         }
@@ -72,6 +72,10 @@ class DetailClientDialog(val activity: AppCompatActivity): AppCompatDialogFragme
         super.onStop()
     }
 
+    private fun dateFormat(date: Date): String{
+        return SimpleDateFormat("dd-MM-yyyy").format(date)
+    }
+
     @Subscribe(sticky = true)
     fun onEvent(clientEvent: ClientEvent){
         clientName.text = String.format("Nombre: %s", clientEvent.clientEntity.clientName)
@@ -79,8 +83,8 @@ class DetailClientDialog(val activity: AppCompatActivity): AppCompatDialogFragme
         clientPhone.text = String.format("Celular: %s", clientEvent.clientEntity.clientPhone)
         clientPlaque.text = String.format("Placa: %s", clientEvent.clientEntity.clientPlaque)
         clientRate.text = String.format("Tarifa: %s",clientEvent.clientEntity.clientRate.toString())
-        clientStartDate.text = String.format("Fecha de ingreso: %s", SimpleDateFormat("dd-MM-yyyy").format(clientEvent.clientEntity.startDate))
-        clientDueDate.text = String.format("Próximo corte: %s", SimpleDateFormat("dd-MM-yyyy").format(clientEvent.clientEntity.startDate))
+        clientStartDate.text = String.format("Fecha de ingreso: %s", dateFormat(clientEvent.clientEntity.startDate))
+        clientDueDate.text = String.format("Próximo corte: %s", dateFormat(clientEvent.clientEntity.dueDate))
         clientId = clientEvent.clientEntity.clientId
 
         if(clientEvent.clientEntity.clientActive == 0){

@@ -115,6 +115,7 @@
             app:cardUseCompatPadding="true">
 
             <LinearLayout
+                android:id="@+id/main_llyout_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -153,6 +154,7 @@
             app:cardUseCompatPadding="true">
 
             <LinearLayout
+                android:id="@+id/main_llyout_list_clients"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

@@ -47,13 +47,13 @@ class MainActivity : AppCompatActivity(), MainView {
         presenter.getTotalClients()
     }
 
-    @OnClick(R.id.main_img_register)
+    @OnClick(R.id.main_llyout_register)
     fun openRegister(){
         startActivity(Intent(this, RegisterActivity::class.java))
         Animatoo.animateSlideRight(this)
     }
 
-    @OnClick(R.id.main_img_list)
+    @OnClick(R.id.main_llyout_list_clients)
     fun openList(){
         startActivity(Intent(this, ListClientsActivity::class.java))
         Animatoo.animateSlideRight(this)

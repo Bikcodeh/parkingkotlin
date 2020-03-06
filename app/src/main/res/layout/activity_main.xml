@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".activity.main.view.MainActivity">
 
+    <include layout="@layout/action_bar" />
+
     <LinearLayout
         android:id="@+id/main_llyout_totals"
         android:layout_width="0dp"

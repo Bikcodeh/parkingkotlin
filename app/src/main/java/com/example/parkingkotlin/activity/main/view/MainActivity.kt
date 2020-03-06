@@ -38,6 +38,10 @@ class MainActivity : AppCompatActivity(), MainView {
 
     private fun initComponents(){
         ButterKnife.bind(this)
+
+        setSupportActionBar(findViewById(R.id.main_toolbar))
+        title = getString(R.string.title_main)
+
         presenter = MainPresenterImpl(this ,application, this)
 
         presenter.getTotalClients()

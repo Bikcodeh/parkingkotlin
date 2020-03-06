@@ -6,7 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".activity.main.view.MainActivity">
 
-    <include layout="@layout/action_bar" />
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/action_bar" />
+
+    <ImageView
+        android:id="@+id/main_img_parking"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/sixteen_dp"
+        android:src="@drawable/ic_garage"
+        app:layout_constraintBottom_toTopOf="@+id/main_llyout_totals"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/main_txt_title_app"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:layout_marginTop="@dimen/four_dp"
+        android:text="@string/title_main_parking"
+        android:textColor="@color/deep_blue"
+        android:textSize="@dimen/big_font_size"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_img_parking" />
 
     <LinearLayout
         android:id="@+id/main_llyout_totals"

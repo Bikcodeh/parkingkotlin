@@ -1,10 +1,11 @@
-package com.example.parkingkotlin
+package com.example.parkingkotlin.activity.splash
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
+import com.example.parkingkotlin.R
 import com.example.parkingkotlin.activity.main.view.MainActivity
 
 class SplashScreenActivity : AppCompatActivity() {

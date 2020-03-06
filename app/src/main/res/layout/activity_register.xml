@@ -17,7 +17,8 @@
         android:layout_below="@+id/register_toolbar"
         android:layout_margin="@dimen/sixteen_dp"
         android:text="@string/register"
-        android:textSize="@dimen/normal_font_size" />
+        android:textSize="@dimen/big_font_size"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:id="@+id/register_llayout_name_id"
@@ -112,7 +113,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/register_llyout_id_price"
-        android:layout_margin="@dimen/sixteen_dp"
+        android:layout_marginLeft="@dimen/sixteen_dp"
+        android:layout_marginTop="@dimen/sixteen_dp"
+        android:layout_marginRight="@dimen/sixteen_dp"
+        android:layout_marginBottom="@dimen/two_dp"
         android:baselineAligned="false"
         android:orientation="horizontal">
 
@@ -197,9 +201,10 @@
         android:id="@+id/register_btn_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/register_llayout_chips"
         android:layout_margin="@dimen/sixteen_dp"
         android:text="@string/register"
-        android:layout_below="@+id/register_llayout_chips"/>
+        app:backgroundTint="@color/deep_blue" />
 
     <include layout="@layout/progress_bar" />
 

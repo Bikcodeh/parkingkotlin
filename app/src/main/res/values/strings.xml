@@ -29,4 +29,6 @@
     <string name="dummy_detail_start_date">Fecha de ingreso: 04/05/2020</string>
     <string name="dummy_detail_due_date">Proximo corte: 04/06/2020</string>
     <string name="paid">Pagó</string>
+    <string name="created_by">Creado por la calidad de yerno</string>
+    <string name="title_splash">Mini Parking App</string>
 </resources>

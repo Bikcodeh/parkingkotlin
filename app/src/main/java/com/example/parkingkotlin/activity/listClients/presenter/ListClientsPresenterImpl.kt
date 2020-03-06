@@ -60,7 +60,6 @@ class ListClientsPresenterImpl(appCompatActivity: AppCompatActivity, application
 
     @Subscribe(sticky = true)
     fun onEvent(clientIdEvent: ClientIdEvent){
-        Log.d("PRESENTER ID CLIENT: ", clientIdEvent.clientId.toString())
         repository.updateClientStatus(clientIdEvent.clientId)
     }
 }

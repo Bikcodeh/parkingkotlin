@@ -38,7 +38,6 @@ class ListClientsRepositoryImpl(private val appCompatActivity: AppCompatActivity
         var updated: Int
 
         if(clientDao != null){
-            Log.d("REPOSITORY CLIENT ID: ", idClient.toString())
             try{
                 kotlin.run {
                     updated = clientDao.updateStatus(statusActive, idClient)

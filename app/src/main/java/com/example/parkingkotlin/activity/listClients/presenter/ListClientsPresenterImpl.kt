@@ -1,12 +1,13 @@
 package com.example.parkingkotlin.activity.listClients.presenter
 
 import android.app.Application
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.parkingkotlin.activity.listClients.repository.ListClientsRepository
 import com.example.parkingkotlin.activity.listClients.repository.ListClientsRepositoryImpl
 import com.example.parkingkotlin.activity.listClients.view.ListClientsView
 import com.example.parkingkotlin.database.entity.ClientEntity
-import com.example.parkingkotlin.events.ClientStatusEvent
+import com.example.parkingkotlin.events.ClientIdEvent
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
@@ -58,7 +59,8 @@ class ListClientsPresenterImpl(appCompatActivity: AppCompatActivity, application
     }
 
     @Subscribe(sticky = true)
-    fun onEvent(clientStatusEvent: ClientStatusEvent){
-        repository.updateClientStatus(clientStatusEvent.status)
+    fun onEvent(clientIdEvent: ClientIdEvent){
+        Log.d("PRESENTER ID CLIENT: ", clientIdEvent.clientId.toString())
+        repository.updateClientStatus(clientIdEvent.clientId)
     }
 }

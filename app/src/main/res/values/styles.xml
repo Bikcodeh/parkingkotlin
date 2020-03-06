@@ -24,4 +24,12 @@
         <item name="android:fontFamily">@font/manjari_regular</item>
     </style>
 
+    <style name="Custom" parent="android:Theme.DeviceDefault.Dialog">
+        <item name="DialogTitleAppearance">@android:style/TextAppearance.Medium</item>
+        <item name="DialogTitleText">@string/loading</item>
+        <item name="DialogSpotColor">@color/deep_blue</item>
+        <item name="DialogSpotCount">4</item>
+    </style>
+
+    <string name="loading">Cargando…</string>
 </resources>

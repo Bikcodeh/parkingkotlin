@@ -14,7 +14,7 @@ interface ClientDao {
     fun update(clientEntity: ClientEntity)
 
     @Query("UPDATE ${ClientEntity.TABLE_NAME} SET active = :activeStatus WHERE id_cliente = :clientId")
-    fun updateStatus(activeStatus: Int, clientId: Int): Int
+    fun updateStatus(activeStatus: Int, clientId: Int?): Int
 
     @Delete
     fun delete(clientEntity: ClientEntity)

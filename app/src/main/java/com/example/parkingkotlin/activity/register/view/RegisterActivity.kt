@@ -6,7 +6,6 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import android.app.DatePickerDialog
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.ProgressBar
@@ -22,6 +21,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.jaredrummler.materialspinner.MaterialSpinner
+import dmax.dialog.SpotsDialog
 import es.dmoral.toasty.Toasty
 import java.text.SimpleDateFormat
 import java.util.*
@@ -73,6 +73,8 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButt
     var clientRate: Float = 0F
     lateinit var registerPresenterImpl: RegisterPresenterImpl
 
+    lateinit var dialog: android.app.AlertDialog
+
     var clientStatus: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,6 +91,9 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButt
         title = resources.getString(R.string.title_register)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        dialog = SpotsDialog.Builder().setContext(this).setTheme(R.style.Custom).build()
+
 
         val calendar: Calendar = Calendar.getInstance()
         registerPresenterImpl = RegisterPresenterImpl(application, this)
@@ -203,11 +208,11 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButt
     }
 
     override fun showProgress() {
-        progressBar.visibility = View.VISIBLE
+        dialog.show()
     }
 
     override fun hideProgress() {
-        progressBar.visibility = View.INVISIBLE
+        dialog.dismiss()
     }
 
     override fun showErrorMessage(throwable: Throwable) {

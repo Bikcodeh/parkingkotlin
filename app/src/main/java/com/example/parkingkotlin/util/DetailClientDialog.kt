@@ -1,11 +1,11 @@
 package com.example.parkingkotlin.util
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -13,9 +13,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.content.ContextCompat
 import com.example.parkingkotlin.R
-import com.example.parkingkotlin.database.entity.ClientEntity
 import com.example.parkingkotlin.events.ClientEvent
-import com.example.parkingkotlin.events.ClientStatusEvent
+import com.example.parkingkotlin.events.ClientIdEvent
 import com.google.android.material.button.MaterialButton
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -30,7 +29,7 @@ class DetailClientDialog(val activity: AppCompatActivity): AppCompatDialogFragme
     private lateinit var clientStartDate: TextView
     private lateinit var clientDueDate: TextView
     private lateinit var buttonPaid: MaterialButton
-    private var clientStatus = 1
+    private var clientId: Int? = null
 
     @SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -52,7 +51,8 @@ class DetailClientDialog(val activity: AppCompatActivity): AppCompatDialogFragme
         buttonPaid = view.findViewById(R.id.detail_client_btn_paid)
 
         buttonPaid.setOnClickListener{
-            EventBus.getDefault().postSticky(ClientStatusEvent(clientStatus))
+            Log.d("ID CLIENTE: ", clientId.toString())
+            EventBus.getDefault().postSticky(ClientIdEvent(clientId))
             dismiss()
         }
 
@@ -81,6 +81,7 @@ class DetailClientDialog(val activity: AppCompatActivity): AppCompatDialogFragme
         clientRate.text = String.format("Tarifa: %s",clientEvent.clientEntity.clientRate.toString())
         clientStartDate.text = String.format("Fecha de ingreso: %s", SimpleDateFormat("dd-MM-yyyy").format(clientEvent.clientEntity.startDate))
         clientDueDate.text = String.format("Próximo corte: %s", SimpleDateFormat("dd-MM-yyyy").format(clientEvent.clientEntity.startDate))
+        clientId = clientEvent.clientEntity.clientId
 
         if(clientEvent.clientEntity.clientActive == 0){
             buttonPaid.visibility = View.VISIBLE

@@ -3,6 +3,8 @@ package com.example.parkingkotlin.activity.listClients.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
@@ -28,6 +30,9 @@ class ListClientsActivity : AppCompatActivity(), ListClientsView {
 
     @BindView(R.id.main_toolbar)
     lateinit var listClientsToolbar: Toolbar
+
+    @BindView(R.id.list_clients_llyout_empty_clients)
+    lateinit var layoutEmptyClients: LinearLayout
 
     lateinit var presenter: ListClientsPresenterImpl
 
@@ -80,6 +85,16 @@ class ListClientsActivity : AppCompatActivity(), ListClientsView {
     override fun updateRecycler() {
         this.recyclerClients.invalidate()
         this.recyclerClients.adapter?.notifyDataSetChanged()
+    }
+
+    override fun hideEmptyClients() {
+        layoutEmptyClients.visibility = View.GONE
+        recyclerClients.visibility = View.VISIBLE
+    }
+
+    override fun showEmptyClients() {
+        layoutEmptyClients.visibility = View.VISIBLE
+        recyclerClients.visibility = View.GONE
     }
 
     override fun onStart() {

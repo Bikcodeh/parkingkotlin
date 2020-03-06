@@ -26,7 +26,12 @@ class ListClientsPresenterImpl(appCompatActivity: AppCompatActivity, application
 
     override fun onSuccessGetClients(list: List<ClientEntity>) {
         view.hideProgress()
-        view.setDataToRecycler(list)
+        if(list.isNotEmpty()){
+            view.hideEmptyClients()
+            view.setDataToRecycler(list)
+        }else{
+            view.showEmptyClients()
+        }
     }
 
     override fun onErrorGetClients(throwable: Throwable) {

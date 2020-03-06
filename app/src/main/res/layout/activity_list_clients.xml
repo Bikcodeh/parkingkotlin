@@ -9,13 +9,41 @@
         android:id="@+id/list_clients_toolbar"
         layout="@layout/action_bar" />
 
+    <LinearLayout
+        android:id="@+id/list_clients_llyout_empty_clients"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:id="@+id/list_clients_img_no_clients"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_sentiment_dissatisfied_deep_blue"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/list_clients_txt_no_clients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/no_clients"
+            android:textAlignment="center"
+            android:textSize="@dimen/big_font_size" />
+
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_clients_recycler_clients"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/list_clients_toolbar"
         android:layout_marginTop="@dimen/eight_dp"
-        android:layout_marginBottom="@dimen/eight_dp" />
+        android:layout_marginBottom="@dimen/eight_dp"
+        android:visibility="gone" />
 
     <include layout="@layout/progress_bar" />
 

@@ -12,4 +12,8 @@ interface ListClientsView {
     fun showMessageError(throwable: Throwable)
 
     fun updateRecycler()
+
+    fun hideEmptyClients()
+
+    fun showEmptyClients()
 }

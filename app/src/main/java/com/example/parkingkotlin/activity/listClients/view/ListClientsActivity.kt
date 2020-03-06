@@ -55,11 +55,13 @@ class ListClientsActivity : AppCompatActivity(), ListClientsView {
     override fun showProgress() {
         this.progressBar.visibility = View.VISIBLE
     }
+
     override fun hideProgress() {
         this.progressBar.visibility = View.INVISIBLE
     }
+
     override fun setDataToRecycler(list: List<ClientEntity>) {
-        recyclerClients.adapter = ClientAdapter(list)
+        recyclerClients.adapter = ClientAdapter(this, list)
     }
     override fun showMessageError(throwable: Throwable) {
         Toasty.error(this, throwable.message.toString(), Toast.LENGTH_LONG).show()
@@ -75,4 +77,18 @@ class ListClientsActivity : AppCompatActivity(), ListClientsView {
         Animatoo.animateSlideLeft(this)
     }
 
+    override fun updateRecycler() {
+        this.recyclerClients.invalidate()
+        this.recyclerClients.adapter?.notifyDataSetChanged()
+    }
+
+    override fun onStart() {
+        presenter.registerEventBus()
+        super.onStart()
+    }
+
+    override fun onStop() {
+        presenter.unRegisterEvent()
+        super.onStop()
+    }
 }

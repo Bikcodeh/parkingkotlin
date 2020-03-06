@@ -96,8 +96,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/dummy_detail_due_date"
-            android:textStyle="bold"
-            android:textSize="@dimen/eighteen_font_size" />
+            android:textSize="@dimen/eighteen_font_size"
+            android:textStyle="bold" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/detail_client_btn_paid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/forty_dp"
+            android:layout_marginTop="@dimen/eight_dp"
+            android:visibility="visible"
+            android:layout_marginEnd="@dimen/forty_dp"
+            android:backgroundTint="@color/deep_blue"
+            android:text="@string/paid"
+            android:textAllCaps="false" />
 
     </LinearLayout>
 

@@ -10,4 +10,6 @@ interface ListClientsView {
     fun setDataToRecycler(list: List<ClientEntity>)
 
     fun showMessageError(throwable: Throwable)
+
+    fun updateRecycler()
 }

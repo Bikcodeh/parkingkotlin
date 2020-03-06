@@ -9,15 +9,18 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.content.ContextCompat
 import com.example.parkingkotlin.R
 import com.example.parkingkotlin.database.entity.ClientEntity
 import com.example.parkingkotlin.events.ClientEvent
+import com.example.parkingkotlin.events.ClientStatusEvent
+import com.google.android.material.button.MaterialButton
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
-class DetailClientDialog(val activity: Activity): AppCompatDialogFragment() {
+class DetailClientDialog(val activity: AppCompatActivity): AppCompatDialogFragment() {
 
     private lateinit var clientName: TextView
     private lateinit var clientIdentification: TextView
@@ -26,7 +29,8 @@ class DetailClientDialog(val activity: Activity): AppCompatDialogFragment() {
     private lateinit var clientRate: TextView
     private lateinit var clientStartDate: TextView
     private lateinit var clientDueDate: TextView
-
+    private lateinit var buttonPaid: MaterialButton
+    private var clientStatus = 1
 
     @SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -45,6 +49,12 @@ class DetailClientDialog(val activity: Activity): AppCompatDialogFragment() {
         clientStartDate = view.findViewById(R.id.detail_client_txt_start_date)
         clientDueDate = view.findViewById(R.id.detail_client_txt_due_date)
         clientDueDate.setTextColor(ContextCompat.getColor(view.context, R.color.brown_shadow))
+        buttonPaid = view.findViewById(R.id.detail_client_btn_paid)
+
+        buttonPaid.setOnClickListener{
+            EventBus.getDefault().postSticky(ClientStatusEvent(clientStatus))
+            dismiss()
+        }
 
         imageClose.setOnClickListener{
             dismiss()
@@ -71,5 +81,11 @@ class DetailClientDialog(val activity: Activity): AppCompatDialogFragment() {
         clientRate.text = String.format("Tarifa: %s",clientEvent.clientEntity.clientRate.toString())
         clientStartDate.text = String.format("Fecha de ingreso: %s", SimpleDateFormat("dd-MM-yyyy").format(clientEvent.clientEntity.startDate))
         clientDueDate.text = String.format("Próximo corte: %s", SimpleDateFormat("dd-MM-yyyy").format(clientEvent.clientEntity.startDate))
+
+        if(clientEvent.clientEntity.clientActive == 0){
+            buttonPaid.visibility = View.VISIBLE
+        }else{
+            buttonPaid.visibility = View.GONE
+        }
     }
 }

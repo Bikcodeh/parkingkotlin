@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.content.ContextCompat
 import com.example.parkingkotlin.R
 import com.example.parkingkotlin.events.ClientEvent
-import com.example.parkingkotlin.events.ClientIdStatusEvent
+import com.example.parkingkotlin.events.ClientUpdateEvent
 import com.google.android.material.button.MaterialButton
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -31,6 +31,8 @@ class DetailClientDialog(val activity: AppCompatActivity): AppCompatDialogFragme
     private lateinit var buttonPaid: MaterialButton
     private var clientId: Int? = null
     private val clientStatusPaid = 1
+    private var dueDateUpdate: Date? = null
+    private lateinit var calendar: Calendar
 
     @SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -51,8 +53,10 @@ class DetailClientDialog(val activity: AppCompatActivity): AppCompatDialogFragme
         clientDueDate.setTextColor(ContextCompat.getColor(view.context, R.color.brown_shadow))
         buttonPaid = view.findViewById(R.id.detail_client_btn_paid)
 
+        calendar = Calendar.getInstance()
+
         buttonPaid.setOnClickListener{
-            EventBus.getDefault().postSticky(ClientIdStatusEvent(clientId, clientStatusPaid))
+            EventBus.getDefault().postSticky(ClientUpdateEvent(clientId, clientStatusPaid, dueDateUpdate))
             dismiss()
         }
 
@@ -89,6 +93,10 @@ class DetailClientDialog(val activity: AppCompatActivity): AppCompatDialogFragme
 
         if(clientEvent.clientEntity.clientActive == 0){
             buttonPaid.visibility = View.VISIBLE
+            calendar.time = clientEvent.clientEntity.dueDate
+            calendar.add(Calendar.MONTH, 1)
+            dueDateUpdate = calendar.time
+
         }else{
             buttonPaid.visibility = View.GONE
         }

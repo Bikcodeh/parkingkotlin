@@ -1,13 +1,12 @@
 package com.example.parkingkotlin.activity.listClients.presenter
 
 import android.app.Application
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.parkingkotlin.activity.listClients.repository.ListClientsRepository
 import com.example.parkingkotlin.activity.listClients.repository.ListClientsRepositoryImpl
 import com.example.parkingkotlin.activity.listClients.view.ListClientsView
 import com.example.parkingkotlin.database.entity.ClientEntity
-import com.example.parkingkotlin.events.ClientIdStatusEvent
+import com.example.parkingkotlin.events.ClientUpdateEvent
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
@@ -54,8 +53,7 @@ class ListClientsPresenterImpl(appCompatActivity: AppCompatActivity, application
     }
 
     @Subscribe(sticky = true)
-    fun onEvent(clientIdStatusEvent: ClientIdStatusEvent){
-        Log.d("EVENTO DISPARADO: ", clientIdStatusEvent.clientStatus.toString())
-        repository.updateClientStatus(clientIdStatusEvent.clientStatus, clientIdStatusEvent.clientId)
+    fun onEvent(clientUpdateEvent: ClientUpdateEvent){
+        repository.updateClientPaid(clientUpdateEvent.clientStatus, clientUpdateEvent.clientId, clientUpdateEvent.dueDate)
     }
 }

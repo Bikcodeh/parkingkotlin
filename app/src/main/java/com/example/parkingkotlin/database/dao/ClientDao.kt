@@ -14,8 +14,8 @@ interface ClientDao {
     @Update
     fun update(clientEntity: ClientEntity)
 
-    @Query("UPDATE ${ClientEntity.TABLE_NAME} SET active = :activeStatus WHERE id_cliente = :clientId")
-    fun updateStatus(activeStatus: Int?, clientId: Int?): Int
+    @Query("UPDATE ${ClientEntity.TABLE_NAME} SET active = :activeStatus, dueDate = :date  WHERE id_cliente = :clientId")
+    fun updateStatus(activeStatus: Int?, clientId: Int?, date: Date?): Int
 
     @Query("UPDATE ${ClientEntity.TABLE_NAME} SET active = 0 WHERE id_cliente in (:ids)")
     fun updateStatusClients(ids: List<Int>?)

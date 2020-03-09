@@ -32,14 +32,14 @@ class ListClientsRepositoryImpl(private val appCompatActivity: AppCompatActivity
         }
     }
 
-    override fun updateClientStatus(clientStatus: Int?, idClient: Int?) {
+    override fun updateClientPaid(clientStatus: Int?, idClient: Int?, date: Date?) {
 
         var updated: Int
 
         if(clientDao != null){
             try{
                 kotlin.run {
-                    updated = clientDao.updateStatus(clientStatus, idClient)
+                    updated = clientDao.updateStatus(clientStatus, idClient, date)
                     presenter.onSuccessUpdate(updated)
                     Log.d("ACTUALIZADO ***--*-", updated.toString())
                 }

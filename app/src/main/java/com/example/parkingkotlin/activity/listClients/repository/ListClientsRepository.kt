@@ -1,8 +1,10 @@
 package com.example.parkingkotlin.activity.listClients.repository
 
+import java.util.*
+
 interface ListClientsRepository {
 
     fun getAllClients()
 
-    fun updateClientStatus(clientStatus: Int?, idClient: Int?)
+    fun updateClientPaid(clientStatus: Int?, idClient: Int?, date: Date?)
 }

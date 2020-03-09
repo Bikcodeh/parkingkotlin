@@ -244,4 +244,13 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButt
         super.onBackPressed()
         Animatoo.animateSlideLeft(this)
     }
+
+    override fun clearInputs(){
+
+        this.clientIdentification.setText("")
+        this.clientStartDate.setText("")
+        this.clientName.setText("")
+        this.clientPlaque.setText("")
+        this.clientPhone.setText("")
+    }
 }

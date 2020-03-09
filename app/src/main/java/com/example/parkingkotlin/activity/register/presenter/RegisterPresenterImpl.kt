@@ -20,6 +20,7 @@ class RegisterPresenterImpl(application: Application, private val registerActivi
     override fun onSaveSuccess() {
         registerActivityView.hideProgress()
         registerActivityView.showSuccessMesage("Guardado con exito")
+        registerActivityView.clearInputs()
     }
 
     override fun onSaveError(throwable: Throwable) {

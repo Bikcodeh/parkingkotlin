@@ -7,4 +7,6 @@ interface RegisterActivityView {
 
     fun showSuccessMesage(message: String)
     fun showErrorMessage(throwable: Throwable)
+
+    fun clearInputs()
 }

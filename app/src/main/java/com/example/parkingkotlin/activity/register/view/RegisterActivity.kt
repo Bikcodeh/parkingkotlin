@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.CompoundButton
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.annotation.Nullable
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import butterknife.OnClick
@@ -43,8 +44,10 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButt
     @BindView(R.id.register_edtext_client_name)
     lateinit var clientName: TextInputEditText
 
+    @Nullable
+    @JvmField
     @BindView(R.id.register_edtext_client_phone)
-    lateinit var clientPhone: TextInputEditText
+    var clientPhone: TextInputEditText? = null
 
     @BindView(R.id.register_tiinputlayout_client_plaque)
     lateinit var clientPlaqueTextLayout: TextInputLayout
@@ -52,8 +55,13 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButt
     @BindView(R.id.register_edtext_client_plaque)
     lateinit var clientPlaque: TextInputEditText
 
+    @Nullable
+    @JvmField
     @BindView(R.id.register_edtext_client_id)
-    lateinit var clientIdentification: TextInputEditText
+    var clientIdentification: TextInputEditText? = null
+
+    @BindView(R.id.register_tiinputlayout_client_date)
+    lateinit var clientStartDateTextLayout: TextInputLayout
 
     @BindView(R.id.register_edtext_client_date)
     lateinit var clientStartDate: TextInputEditText
@@ -73,7 +81,7 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButt
     @BindView(R.id.main_toolbar)
     lateinit var registerToolbar: Toolbar
 
-    var clientRate: Float = 0F
+    var clientRate: Float = 90F
     lateinit var registerPresenterImpl: RegisterPresenterImpl
 
     lateinit var dialog: android.app.AlertDialog
@@ -112,10 +120,11 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButt
             dpd.show()
         }
 
-        spinerPrices.setItems("Tarifa", "$80.000", "$60.000", "$40.000")
+        spinerPrices.setItems("Tarifa", "$90.000", "$60.000", "$40.000")
 
         spinerPrices.setOnItemSelectedListener { view, position, id, item ->
-            clientRate = convertToFloat(item.toString())
+            if(position != 0)
+                clientRate = convertToFloat(item.toString())
         }
 
 
@@ -181,7 +190,7 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButt
     @OnClick(R.id.register_btn_register)
     fun registerClient(){
 
-        if(validateFields( listOf(this.clientName, this.clientPlaque), listOf(this.clientNameTextLayout, this.clientPlaqueTextLayout))){
+        if(validateFields( listOf(this.clientName, this.clientPlaque, this.clientStartDate), listOf(this.clientNameTextLayout, this.clientPlaqueTextLayout, clientStartDateTextLayout))){
 
             var date = stringToDate(this.clientStartDate.text.toString())
             calendar.time = date
@@ -190,11 +199,11 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButt
 
             val clientEntity = ClientEntity(
                 clientName = this.clientName.text.toString(),
-                clientIdentification = this.clientIdentification.text.toString(),
+                clientIdentification = this.clientIdentification?.text.toString(),
                 clientActive = this.clientStatus,
                 clientPlaque = this.clientPlaque.text.toString(),
                 clientRate = this.clientRate,
-                clientPhone = this.clientPhone.text.toString(),
+                clientPhone = this.clientPhone?.text.toString(),
                 startDate = stringToDate(this.clientStartDate.text.toString()),
                 dueDate = date
             )
@@ -247,10 +256,10 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButt
 
     override fun clearInputs(){
 
-        this.clientIdentification.setText("")
+        this.clientIdentification?.setText("")
         this.clientStartDate.setText("")
         this.clientName.setText("")
         this.clientPlaque.setText("")
-        this.clientPhone.setText("")
+        this.clientPhone?.setText("")
     }
 }

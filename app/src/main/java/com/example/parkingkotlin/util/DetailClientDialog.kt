@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.content.ContextCompat
@@ -15,6 +16,7 @@ import com.example.parkingkotlin.R
 import com.example.parkingkotlin.events.ClientEvent
 import com.example.parkingkotlin.events.ClientUpdateEvent
 import com.google.android.material.button.MaterialButton
+import es.dmoral.toasty.Toasty
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import java.util.*
@@ -57,6 +59,7 @@ class DetailClientDialog(val activity: AppCompatActivity): AppCompatDialogFragme
 
         buttonPaid.setOnClickListener{
             EventBus.getDefault().postSticky(ClientUpdateEvent(clientId, clientStatusPaid, dueDateUpdate))
+            Toasty.success(it.context, getString(R.string.updated_client), Toast.LENGTH_SHORT).show()
             dismiss()
         }
 

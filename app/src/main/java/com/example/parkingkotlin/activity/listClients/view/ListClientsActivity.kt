@@ -83,8 +83,8 @@ class ListClientsActivity : AppCompatActivity(), ListClientsView {
     }
 
     override fun updateRecycler() {
-        this.recyclerClients.invalidate()
-        this.recyclerClients.adapter?.notifyDataSetChanged()
+        //this.recyclerClients.invalidate()
+        //this.recyclerClients.adapter?.notifyDataSetChanged()
     }
 
     override fun hideEmptyClients() {

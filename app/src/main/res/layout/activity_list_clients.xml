@@ -60,7 +60,6 @@
             android:id="@+id/list_clients_eddtext_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textCursorDrawable="@drawable/cursor_color_blue"
             android:layout_marginStart="@dimen/four_dp"
             android:layout_marginEnd="@dimen/four_dp"
             android:layout_weight="0.5"
@@ -70,18 +69,28 @@
             android:maxLines="1"
             android:padding="@dimen/four_dp"
             android:textAlignment="center"
+            android:textCursorDrawable="@drawable/cursor_color_blue"
             tools:ignore="Autofill" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/list_clients_txt_not_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/list_clients_edtext_search"
+        android:layout_marginTop="@dimen/sixteen_dp"
+        android:text="@string/not_results"
+        android:textAlignment="center"
+        android:textSize="@dimen/normal_font_size"
+        android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_clients_recycler_clients"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/list_clients_edtext_search"
-        android:layout_marginStart="@dimen/sixteen_dp"
         android:layout_marginTop="@dimen/eight_dp"
-        android:layout_marginEnd="@dimen/sixteen_dp"
         android:layout_marginBottom="@dimen/eight_dp"
         android:visibility="visible" />
 

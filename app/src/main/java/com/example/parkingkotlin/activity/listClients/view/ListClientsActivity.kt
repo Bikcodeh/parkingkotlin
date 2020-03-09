@@ -39,6 +39,9 @@ class ListClientsActivity : AppCompatActivity(), ListClientsView {
     @BindView(R.id.list_clients_eddtext_search)
     lateinit var searchClientEditText: EditText
 
+    @BindView(R.id.list_clients_txt_not_result)
+    lateinit var notResultsTxt: TextView
+
     lateinit var presenter: ListClientsPresenterImpl
 
     lateinit var listClients: List<ClientEntity>
@@ -51,7 +54,7 @@ class ListClientsActivity : AppCompatActivity(), ListClientsView {
         initComponents()
     }
 
-    private fun initComponents(){
+    private fun initComponents() {
         ButterKnife.bind(this)
 
         setSupportActionBar(listClientsToolbar)
@@ -65,7 +68,7 @@ class ListClientsActivity : AppCompatActivity(), ListClientsView {
         recyclerClients.layoutManager = LinearLayoutManager(this)
         this.presenter.getClients()
 
-        searchClientEditText.addTextChangedListener(object: TextWatcher{
+        searchClientEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
             }
@@ -94,6 +97,7 @@ class ListClientsActivity : AppCompatActivity(), ListClientsView {
         this.adapterClients = ClientAdapter(this, list)
         recyclerClients.adapter = this.adapterClients
     }
+
     override fun showMessageError(throwable: Throwable) {
         Toasty.error(this, throwable.message.toString(), Toast.LENGTH_LONG).show()
     }
@@ -142,7 +146,14 @@ class ListClientsActivity : AppCompatActivity(), ListClientsView {
                 filteredList.add(item)
             }
         }
-
         adapterClients.filterList(filteredList)
+
+        if (filteredList.size == 0) {
+            notResultsTxt.visibility = View.VISIBLE
+            recyclerClients.visibility = View.GONE
+        }else{
+            notResultsTxt.visibility = View.GONE
+            recyclerClients.visibility = View.VISIBLE
+        }
     }
 }

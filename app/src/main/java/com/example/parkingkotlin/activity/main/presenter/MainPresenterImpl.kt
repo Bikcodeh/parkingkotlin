@@ -1,12 +1,16 @@
 package com.example.parkingkotlin.activity.main.presenter
 
 import android.app.Application
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.parkingkotlin.activity.main.repository.MainRepositoryImpl
 import com.example.parkingkotlin.activity.main.view.MainView
+import com.example.parkingkotlin.database.entity.ClientEntity
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainPresenterImpl(appCompatActivity: AppCompatActivity, application: Application, private val view: MainView): MainPresenter {
-
 
     private val repository = MainRepositoryImpl(appCompatActivity, application, this)
 
@@ -14,6 +18,11 @@ class MainPresenterImpl(appCompatActivity: AppCompatActivity, application: Appli
         repository.getTotalClients()
         repository.getTotalPaidClients()
         repository.getTotalPendingClients()
+    }
+
+    override fun getPendingClients(){
+        val date: String = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).format(Date())
+        repository.getPendingClients(SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse(date))
     }
 
     override fun onSuccessTotalClients(totalClients: Int?) {
@@ -39,4 +48,15 @@ class MainPresenterImpl(appCompatActivity: AppCompatActivity, application: Appli
     override fun onErrorTotalPendingClients(throwable: Throwable) {
         view.showErrorMessage(throwable)
     }
+
+    override fun onSuccessPendingClients(listPendingClients: List<ClientEntity>) {
+
+        val listIds: MutableList<Int> = ArrayList()
+
+        for (item in listPendingClients){
+           listIds.add(item.clientId)
+        }
+        repository.updateStatusClients(listIds)
+    }
+
 }

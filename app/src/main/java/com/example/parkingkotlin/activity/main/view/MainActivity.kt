@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity(), MainView {
         title = getString(R.string.title_main)
 
         presenter = MainPresenterImpl(this ,application, this)
-
+        presenter.getPendingClients()
         presenter.getTotalClients()
     }
 

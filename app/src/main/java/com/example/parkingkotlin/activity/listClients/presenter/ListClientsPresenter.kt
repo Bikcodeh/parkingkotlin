@@ -6,8 +6,6 @@ interface ListClientsPresenter {
 
     fun getClients()
 
-    fun updateClientStatus(status: Int)
-
     fun onSuccessGetClients(list: List<ClientEntity>)
 
     fun onErrorGetClients(throwable: Throwable)

@@ -4,5 +4,5 @@ interface ListClientsRepository {
 
     fun getAllClients()
 
-    fun updateClientStatus(idClient: Int?)
+    fun updateClientStatus(clientStatus: Int?, idClient: Int?)
 }

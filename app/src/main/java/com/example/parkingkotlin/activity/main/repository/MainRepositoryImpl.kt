@@ -7,7 +7,9 @@ import androidx.lifecycle.Observer
 import com.example.parkingkotlin.activity.main.presenter.MainPresenter
 import com.example.parkingkotlin.database.dao.ClientDao
 import com.example.parkingkotlin.database.db.ClientsDatabase
+import com.example.parkingkotlin.database.entity.ClientEntity
 import java.lang.Exception
+import java.util.*
 
 class MainRepositoryImpl(val appcompat: AppCompatActivity, val application: Application, private val presenter: MainPresenter): MainRepository {
 
@@ -51,6 +53,28 @@ class MainRepositoryImpl(val appcompat: AppCompatActivity, val application: Appl
         }catch (exception: Exception){
             Log.d("ERROR CON LOS CLIENTES PENDIENTES: ", ""+ exception.message)
             presenter.onErrorTotalPendingClients(exception as Throwable)
+        }
+    }
+
+    override fun getPendingClients(dueDate: Date?){
+            try{
+                kotlin.run {
+                    clientDao?.getClientsPending(dueDate)?.observe(appcompat, Observer<List<ClientEntity>>{
+                        presenter.onSuccessPendingClients(it)
+                    })
+                }
+            }catch (exception: Exception){
+                Log.d("ERROR OBTENIENDO CLIENTES PENDIENTES", exception.message.toString())
+            }
+    }
+
+    override fun updateStatusClients(ids: List<Int>?) {
+        try{
+            kotlin.run {
+                clientDao?.updateStatusClients(ids)
+            }
+        }catch (exception: Exception){
+            Log.d("ERROR ACTUALIZANDO USUARIOS: ", exception.message.toString())
         }
     }
 }

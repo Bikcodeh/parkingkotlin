@@ -1,8 +1,12 @@
 package com.example.parkingkotlin.activity.main.presenter
 
+import com.example.parkingkotlin.database.entity.ClientEntity
+
 interface MainPresenter {
 
     fun getTotalClients()
+
+    fun getPendingClients()
 
     fun onSuccessTotalClients(totalClients: Int?)
     fun onErrorTotalClients(throwable: Throwable)
@@ -13,4 +17,5 @@ interface MainPresenter {
     fun onSuccessTotalPendingClients(totalClients: Int?)
     fun onErrorTotalPendingClients(throwable: Throwable)
 
+    fun onSuccessPendingClients(listPendingClients: List<ClientEntity>)
 }

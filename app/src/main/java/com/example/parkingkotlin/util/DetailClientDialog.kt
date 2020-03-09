@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -14,7 +13,7 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.content.ContextCompat
 import com.example.parkingkotlin.R
 import com.example.parkingkotlin.events.ClientEvent
-import com.example.parkingkotlin.events.ClientIdEvent
+import com.example.parkingkotlin.events.ClientIdStatusEvent
 import com.google.android.material.button.MaterialButton
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -31,6 +30,7 @@ class DetailClientDialog(val activity: AppCompatActivity): AppCompatDialogFragme
     private lateinit var clientDueDate: TextView
     private lateinit var buttonPaid: MaterialButton
     private var clientId: Int? = null
+    private val clientStatusPaid = 1
 
     @SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -52,7 +52,7 @@ class DetailClientDialog(val activity: AppCompatActivity): AppCompatDialogFragme
         buttonPaid = view.findViewById(R.id.detail_client_btn_paid)
 
         buttonPaid.setOnClickListener{
-            EventBus.getDefault().postSticky(ClientIdEvent(clientId))
+            EventBus.getDefault().postSticky(ClientIdStatusEvent(clientId, clientStatusPaid))
             dismiss()
         }
 

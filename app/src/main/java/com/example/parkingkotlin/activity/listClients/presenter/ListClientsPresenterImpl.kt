@@ -7,7 +7,7 @@ import com.example.parkingkotlin.activity.listClients.repository.ListClientsRepo
 import com.example.parkingkotlin.activity.listClients.repository.ListClientsRepositoryImpl
 import com.example.parkingkotlin.activity.listClients.view.ListClientsView
 import com.example.parkingkotlin.database.entity.ClientEntity
-import com.example.parkingkotlin.events.ClientIdEvent
+import com.example.parkingkotlin.events.ClientIdStatusEvent
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
@@ -18,11 +18,6 @@ class ListClientsPresenterImpl(appCompatActivity: AppCompatActivity, application
     override fun getClients() {
         view.showProgress()
         repository.getAllClients()
-    }
-
-    override fun updateClientStatus(status: Int) {
-        view.showProgress()
-        repository.updateClientStatus(status)
     }
 
     override fun onSuccessGetClients(list: List<ClientEntity>) {
@@ -59,7 +54,8 @@ class ListClientsPresenterImpl(appCompatActivity: AppCompatActivity, application
     }
 
     @Subscribe(sticky = true)
-    fun onEvent(clientIdEvent: ClientIdEvent){
-        repository.updateClientStatus(clientIdEvent.clientId)
+    fun onEvent(clientIdStatusEvent: ClientIdStatusEvent){
+        Log.d("EVENTO DISPARADO: ", clientIdStatusEvent.clientStatus.toString())
+        repository.updateClientStatus(clientIdStatusEvent.clientStatus, clientIdStatusEvent.clientId)
     }
 }

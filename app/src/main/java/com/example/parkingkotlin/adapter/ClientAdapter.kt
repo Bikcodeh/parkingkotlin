@@ -12,8 +12,9 @@ import com.example.parkingkotlin.database.entity.ClientEntity
 import com.example.parkingkotlin.events.ClientEvent
 import com.example.parkingkotlin.util.DetailClientDialog
 import org.greenrobot.eventbus.EventBus
+import java.util.ArrayList
 
-class ClientAdapter(val activity: AppCompatActivity, private val clientList: List<ClientEntity>): RecyclerView.Adapter<ClientAdapter.ClientViewHolder>(), View.OnClickListener {
+class ClientAdapter(val activity: AppCompatActivity, private var clientList: List<ClientEntity>): RecyclerView.Adapter<ClientAdapter.ClientViewHolder>(), View.OnClickListener {
 
     private val listener: View.OnClickListener? = null
 
@@ -24,6 +25,11 @@ class ClientAdapter(val activity: AppCompatActivity, private val clientList: Lis
 
     override fun getItemCount(): Int {
         return this.clientList.size
+    }
+
+    fun filterList(filteredList: ArrayList<ClientEntity>) {
+        this.clientList = filteredList
+        notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: ClientViewHolder, position: Int) {

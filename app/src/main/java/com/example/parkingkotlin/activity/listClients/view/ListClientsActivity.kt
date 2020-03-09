@@ -1,13 +1,14 @@
 package com.example.parkingkotlin.activity.listClients.view
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.widget.Toolbar
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
@@ -19,6 +20,7 @@ import com.example.parkingkotlin.activity.listClients.presenter.ListClientsPrese
 import com.example.parkingkotlin.adapter.ClientAdapter
 import com.example.parkingkotlin.database.entity.ClientEntity
 import es.dmoral.toasty.Toasty
+import java.util.ArrayList
 
 class ListClientsActivity : AppCompatActivity(), ListClientsView {
 
@@ -34,7 +36,14 @@ class ListClientsActivity : AppCompatActivity(), ListClientsView {
     @BindView(R.id.list_clients_llyout_empty_clients)
     lateinit var layoutEmptyClients: LinearLayout
 
+    @BindView(R.id.list_clients_eddtext_search)
+    lateinit var searchClientEditText: EditText
+
     lateinit var presenter: ListClientsPresenterImpl
+
+    lateinit var listClients: List<ClientEntity>
+
+    lateinit var adapterClients: ClientAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +64,21 @@ class ListClientsActivity : AppCompatActivity(), ListClientsView {
         recyclerClients.setHasFixedSize(true)
         recyclerClients.layoutManager = LinearLayoutManager(this)
         this.presenter.getClients()
+
+        searchClientEditText.addTextChangedListener(object: TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                filter(s.toString())
+            }
+
+        })
     }
 
     override fun showProgress() {
@@ -66,7 +90,9 @@ class ListClientsActivity : AppCompatActivity(), ListClientsView {
     }
 
     override fun setDataToRecycler(list: List<ClientEntity>) {
-        recyclerClients.adapter = ClientAdapter(this, list)
+        this.listClients = list
+        this.adapterClients = ClientAdapter(this, list)
+        recyclerClients.adapter = this.adapterClients
     }
     override fun showMessageError(throwable: Throwable) {
         Toasty.error(this, throwable.message.toString(), Toast.LENGTH_LONG).show()
@@ -105,5 +131,18 @@ class ListClientsActivity : AppCompatActivity(), ListClientsView {
     override fun onStop() {
         presenter.unRegisterEvent()
         super.onStop()
+    }
+
+    @SuppressLint("DefaultLocale")
+    private fun filter(text: String) {
+        val filteredList = ArrayList<ClientEntity>()
+
+        for (item in listClients) {
+            if (item.clientName.toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(item)
+            }
+        }
+
+        adapterClients.filterList(filteredList)
     }
 }

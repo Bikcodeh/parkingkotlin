@@ -47,6 +47,12 @@ class MainActivity : AppCompatActivity(), MainView {
         presenter.getTotalClients()
     }
 
+    override fun onResume() {
+        super.onResume()
+        presenter.getPendingClients()
+        presenter.getTotalClients()
+    }
+
     @OnClick(R.id.main_llyout_register)
     fun openRegister(){
         startActivity(Intent(this, RegisterActivity::class.java))

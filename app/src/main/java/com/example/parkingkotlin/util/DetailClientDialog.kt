@@ -58,7 +58,7 @@ class DetailClientDialog(val activity: AppCompatActivity): AppCompatDialogFragme
         calendar = Calendar.getInstance()
 
         buttonPaid.setOnClickListener{
-            EventBus.getDefault().postSticky(ClientUpdateEvent(clientId, clientStatusPaid, dueDateUpdate))
+            EventBus.getDefault().post(ClientUpdateEvent(clientId, clientStatusPaid, dueDateUpdate))
             Toasty.success(it.context, getString(R.string.updated_client), Toast.LENGTH_SHORT).show()
             dismiss()
         }

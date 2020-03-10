@@ -20,6 +20,7 @@ class MainRepositoryImpl(val appcompat: AppCompatActivity, val application: Appl
             kotlin.run {
                 clientDao?.getTotalClients()?.observe(appcompat, Observer<Int>{
                     presenter.onSuccessTotalClients(it)
+                    Log.d("MAIN TOTAL CLIENTS", it.toString())
                 })
             }
         }catch (exception: Exception){
@@ -34,6 +35,7 @@ class MainRepositoryImpl(val appcompat: AppCompatActivity, val application: Appl
             kotlin.run {
                clientDao?.getTotalClientsFiltering(1)?.observe(appcompat, Observer<Int>{
                    presenter.onSuccessTotalPaidClients(it)
+                   Log.d("MAIN PAID CLIENTS", it.toString())
                })
             }
         }catch (exception: Exception){
@@ -48,6 +50,7 @@ class MainRepositoryImpl(val appcompat: AppCompatActivity, val application: Appl
             kotlin.run {
                 clientDao?.getTotalClientsFiltering(0)?.observe(appcompat, Observer<Int>{
                     presenter.onSuccessTotalPendingClients(it)
+                    Log.d("MAIN PENDING CLIENTS", it.toString())
                 })
             }
         }catch (exception: Exception){

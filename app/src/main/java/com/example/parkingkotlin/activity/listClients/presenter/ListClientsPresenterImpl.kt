@@ -1,6 +1,7 @@
 package com.example.parkingkotlin.activity.listClients.presenter
 
 import android.app.Application
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.parkingkotlin.activity.listClients.repository.ListClientsRepository
 import com.example.parkingkotlin.activity.listClients.repository.ListClientsRepositoryImpl
@@ -52,8 +53,9 @@ class ListClientsPresenterImpl(appCompatActivity: AppCompatActivity, application
         EventBus.getDefault().unregister(this)
     }
 
-    @Subscribe(sticky = true)
+    @Subscribe
     fun onEvent(clientUpdateEvent: ClientUpdateEvent){
+        Log.d("EVENTO EN PRESENTER", clientUpdateEvent.toString())
         repository.updateClientPaid(clientUpdateEvent.clientStatus, clientUpdateEvent.clientId, clientUpdateEvent.dueDate)
     }
 }

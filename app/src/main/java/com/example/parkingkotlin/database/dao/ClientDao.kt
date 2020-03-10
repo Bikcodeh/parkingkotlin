@@ -26,7 +26,7 @@ interface ClientDao {
     @Query("SELECT * FROM ${ClientEntity.TABLE_NAME} ORDER BY name")
     fun getClients(): LiveData<List<ClientEntity>>
 
-    @Query("SELECT * FROM ${ClientEntity.TABLE_NAME} WHERE dueDate = :dueDateClient")
+    @Query("SELECT * FROM ${ClientEntity.TABLE_NAME} WHERE dueDate = :dueDateClient and active = 1")
     fun getClientsPending(dueDateClient: Date?): LiveData<List<ClientEntity>>
 
     @Query("SELECT COUNT(*) FROM ${ClientEntity.TABLE_NAME}")

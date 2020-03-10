@@ -21,8 +21,8 @@ class MainPresenterImpl(appCompatActivity: AppCompatActivity, application: Appli
     }
 
     override fun getPendingClients(){
-        val date: String = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).format(Date())
-        repository.getPendingClients(SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse(date))
+        val date: String = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).run { format(Date())}
+        repository.getPendingClients(SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).run { parse(date)})
     }
 
     override fun onSuccessTotalClients(totalClients: Int?) {

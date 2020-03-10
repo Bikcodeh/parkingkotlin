@@ -184,7 +184,7 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButt
         if (this <= 9) "0$this" else this.toString()
 
     private fun stringToDate(value: String): Date {
-        return SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse(value)
+        return SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).run { parse(value) }
     }
 
     @OnClick(R.id.register_btn_register)

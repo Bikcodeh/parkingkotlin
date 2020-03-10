@@ -42,6 +42,9 @@ class ListClientsActivity : AppCompatActivity(), ListClientsView {
     @BindView(R.id.list_clients_txt_not_result)
     lateinit var notResultsTxt: TextView
 
+    @BindView(R.id.list_clients_edtext_search)
+    lateinit var layoutSearch: LinearLayout
+
     lateinit var presenter: ListClientsPresenterImpl
 
     lateinit var listClients: List<ClientEntity>
@@ -118,11 +121,13 @@ class ListClientsActivity : AppCompatActivity(), ListClientsView {
     }
 
     override fun hideEmptyClients() {
+        layoutSearch.visibility = View.VISIBLE
         layoutEmptyClients.visibility = View.GONE
         recyclerClients.visibility = View.VISIBLE
     }
 
     override fun showEmptyClients() {
+        layoutSearch.visibility = View.GONE
         layoutEmptyClients.visibility = View.VISIBLE
         recyclerClients.visibility = View.GONE
     }

@@ -7,6 +7,7 @@ import com.example.parkingkotlin.database.dao.ClientDao
 import com.example.parkingkotlin.database.db.ClientsDatabase
 import com.example.parkingkotlin.database.entity.ClientEntity
 import java.lang.Exception
+import java.lang.IllegalArgumentException
 
 class RegisterRepositoryImpl(application: Application, private val registerPresenter: RegisterPresenter): RegisterRepository {
 
@@ -14,25 +15,27 @@ class RegisterRepositoryImpl(application: Application, private val registerPrese
 
     override fun saveUser(clientEntity: ClientEntity) {
 
+        var clientIdentification: String?
+        val clientPlaque: String?
+
         if(clientDao != null){
             try {
+
+                if(clientEntity.clientIdentification != ""){
+                    clientIdentification = clientDao.getClientExistsIdentification(clientEntity.clientIdentification)
+                    require(clientIdentification == null) { "Cedula ya registrada" }
+                }
+
+                clientPlaque = clientDao.getClientExistsPlaque(clientEntity.clientPlaque)
+
+                require(clientPlaque == null) { "Placa ya registrada" }
+
                 clientDao.insert(clientEntity)
                 registerPresenter.onSaveSuccess()
+
             }catch (e: Exception){
                 registerPresenter.onSaveError(e as Throwable)
             }
         }
-    }
-
-    override fun updateUser() {
-
-    }
-
-    override fun deleteUser() {
-
-    }
-
-    override fun getUsers() {
-
     }
 }

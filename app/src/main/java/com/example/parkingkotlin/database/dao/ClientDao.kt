@@ -35,4 +35,10 @@ interface ClientDao {
     @Query("SELECT COUNT(*) FROM ${ClientEntity.TABLE_NAME} WHERE active = :activeUser")
     fun getTotalClientsFiltering(activeUser: Int): LiveData<Int>
 
+    @Query("SELECT identification FROM ${ClientEntity.TABLE_NAME} where identification = :clientIdentification")
+    fun getClientExistsIdentification(clientIdentification: String?): String?
+
+    @Query("SELECT plaque FROM ${ClientEntity.TABLE_NAME} where plaque = :clientPlaque")
+    fun getClientExistsPlaque(clientPlaque: String?): String?
+
 }

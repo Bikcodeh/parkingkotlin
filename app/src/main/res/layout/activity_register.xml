@@ -77,8 +77,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/register_llayout_name_id"
         android:layout_marginLeft="@dimen/sixteen_dp"
+        android:weightSum="2"
         android:layout_marginRight="@dimen/sixteen_dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/register_tiinputlayout_client_phone"
@@ -99,13 +101,24 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.jaredrummler.materialspinner.MaterialSpinner
-            android:id="@+id/register_spinner_prices"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/six_dp"
             android:layout_weight="1"
-            android:textSize="@dimen/normal_font_size" />
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/rate" />
+
+            <Spinner
+                android:id="@+id/register_spinner_prices"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/six_dp"
+                android:textSize="@dimen/normal_font_size" />
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -153,56 +166,50 @@
                 android:id="@+id/register_edtext_client_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="false"
-                android:hint="@string/date"
                 android:inputType="date"
+                android:focusable="false"
+                android:clickable="true"
+                android:text="@string/date"
                 android:maxLines="1" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/register_llayout_chips"
+    
+    <RadioGroup
+        android:id="@+id/register_llayout_radioGroup"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/register_llayout_plaque_date"
         android:layout_marginLeft="@dimen/sixteen_dp"
+        android:layout_below="@+id/register_llayout_plaque_date"
         android:layout_marginRight="@dimen/sixteen_dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/register_chip_payment"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/six_dp"
-            android:layout_weight="1"
-            android:text="@string/payment"
-            android:textAlignment="center"
-            android:textAppearance="@style/chipTextStyle"
-            android:textStyle="bold" />
+        android:layout_height="wrap_content">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/register_chip_pending"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/six_dp"
-            android:layout_weight="1"
-            android:text="@string/pending_payment"
-            android:textAlignment="center"
-            android:textAppearance="@style/chipTextStyle"
-            android:textStyle="bold" />
+            <RadioButton
+                android:id="@+id/register_radio_paid"
+                android:buttonTint="@color/deep_blue"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/paid" />
 
-    </LinearLayout>
+            <RadioButton
+                android:id="@+id/register_radio_pending"
+                android:buttonTint="@color/deep_blue"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/pending_payment" />
+
+        
+    </RadioGroup>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/register_btn_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/register_llayout_chips"
+        android:layout_below="@+id/register_llayout_radioGroup"
         android:layout_margin="@dimen/sixteen_dp"
         android:text="@string/register"
         app:backgroundTint="@color/deep_blue" />

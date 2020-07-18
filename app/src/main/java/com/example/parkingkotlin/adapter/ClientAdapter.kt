@@ -35,7 +35,7 @@ class ClientAdapter(val activity: AppCompatActivity, private var clientList: Lis
     override fun onBindViewHolder(holder: ClientViewHolder, position: Int) {
         holder.clientName.text = this.clientList[position].clientName
         holder.clientPlaque.text = this.clientList[position].clientPlaque
-        if(this.clientList[position].clientActive == 1){
+        if(this.clientList[position].statusPayment == 1){
             holder.clientStatus.text = holder.itemView.resources.getString(R.string.up_to_date)
         }else{
             holder.clientStatus.text = holder.itemView.resources.getString(R.string.pending_payment)

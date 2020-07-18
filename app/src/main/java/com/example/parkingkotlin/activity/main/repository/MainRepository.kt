@@ -4,13 +4,11 @@ import java.util.*
 
 interface MainRepository {
 
-    fun getTotalClients()
+    //fun getPendingClients(dueDate: Date?)
 
-    fun getTotalPaidClients()
-
-    fun getTotalPendingClients()
-
-    fun getPendingClients(dueDate: Date?)
+    fun getClients()
 
     fun updateStatusClients(ids: List<Int>?)
+
+    fun getStatusPaymentList()
 }

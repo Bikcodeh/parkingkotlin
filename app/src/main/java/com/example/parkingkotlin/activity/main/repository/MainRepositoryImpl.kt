@@ -15,48 +15,7 @@ class MainRepositoryImpl(val appcompat: AppCompatActivity, val application: Appl
 
     private val clientDao: ClientDao? = ClientsDatabase.getInstance(application)?.clientDao()
 
-    override fun getTotalClients() {
-        try {
-            kotlin.run {
-                clientDao?.getTotalClients()?.observe(appcompat, Observer<Int>{
-                    presenter.onSuccessTotalClients(it)
-                })
-            }
-        }catch (exception: Exception){
-            Log.d("ERROR CON LOS CLIENTES: ", ""+ exception.message)
-            presenter.onErrorTotalClients(exception as Throwable)
-        }
-    }
-
-    override fun getTotalPaidClients() {
-
-        try {
-            kotlin.run {
-               clientDao?.getTotalClientsFiltering(1)?.observe(appcompat, Observer<Int>{
-                   presenter.onSuccessTotalPaidClients(it)
-               })
-            }
-        }catch (exception: Exception){
-            Log.d("ERROR CON LOS CLIENTES PAGOS: ", ""+ exception.message)
-            presenter.onErrorTotalPaidClients(exception as Throwable)
-        }
-    }
-
-    override fun getTotalPendingClients() {
-
-        try {
-            kotlin.run {
-                clientDao?.getTotalClientsFiltering(0)?.observe(appcompat, Observer<Int>{
-                    presenter.onSuccessTotalPendingClients(it)
-                })
-            }
-        }catch (exception: Exception){
-            Log.d("ERROR CON LOS CLIENTES PENDIENTES: ", ""+ exception.message)
-            presenter.onErrorTotalPendingClients(exception as Throwable)
-        }
-    }
-
-    override fun getPendingClients(dueDate: Date?){
+    /*override fun getPendingClients(dueDate: Date?){
             try{
                 kotlin.run {
                     clientDao?.getClientsPending(dueDate)?.observe(appcompat, Observer<List<ClientEntity>>{
@@ -66,15 +25,44 @@ class MainRepositoryImpl(val appcompat: AppCompatActivity, val application: Appl
             }catch (exception: Exception){
                 Log.d("ERROR OBTENIENDO CLIENTES PENDIENTES", exception.message.toString())
             }
+    }*/
+
+    override fun getClients(){
+            try{
+                kotlin.run {
+                    clientDao?.getClients()?.observe(appcompat, Observer<List<ClientEntity>>{
+                        presenter.onSuccessGetClients(it)
+                    })
+                }
+            }catch (exception: Exception){
+                Log.d("ERROR OBTENIENDO CLIENTES: ", exception.message.toString())
+                presenter.onErrorGetClients(exception as Throwable)
+            }
     }
+
 
     override fun updateStatusClients(ids: List<Int>?) {
         try{
             kotlin.run {
                 clientDao?.updateStatusClients(ids)
+                presenter.onSuccessUpdateClients(true)
             }
         }catch (exception: Exception){
             Log.d("ERROR ACTUALIZANDO USUARIOS: ", exception.message.toString())
+            presenter.onErrorUpdateClients(exception as Throwable)
+        }
+    }
+
+    override fun getStatusPaymentList(){
+        try{
+            kotlin.run {
+                clientDao?.getStatusPaymentList()?.observe(appcompat, Observer<List<Int>>{
+                    presenter.onSuccessStatusPaymentList(it)
+                })
+            }
+        }catch (exception: Exception){
+            Log.d("ERROR OBTENIENDO LISTA DE ESTADOS DE PAGO:", "${exception.message}")
+            presenter.onErrorStatusPaymentList(exception as Throwable)
         }
     }
 }

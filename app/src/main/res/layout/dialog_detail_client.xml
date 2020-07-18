@@ -99,17 +99,38 @@
             android:textSize="@dimen/eighteen_font_size"
             android:textStyle="bold" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/detail_client_btn_paid"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/forty_dp"
             android:layout_marginTop="@dimen/eight_dp"
-            android:visibility="visible"
-            android:layout_marginEnd="@dimen/forty_dp"
-            android:backgroundTint="@color/deep_blue"
-            android:text="@string/paid"
-            android:textAllCaps="false" />
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/detail_client_btn_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:visibility="visible"
+                android:textStyle="bold"
+                android:layout_marginEnd="@dimen/four_dp"
+                android:backgroundTint="@color/brown_shadow"
+                android:text="@string/edit"
+                android:textAllCaps="false" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/detail_client_btn_paid"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/four_dp"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:backgroundTint="@color/deep_blue"
+                android:text="@string/paid"
+                android:textAllCaps="false" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

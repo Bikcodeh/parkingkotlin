@@ -43,6 +43,8 @@
     <string name="update">Actualizar</string>
 
     <string name="update_success">Actualización correcta</string>
+    <string name="rate">Tarifa</string>
+    <string name="type_name">Ingrese nombre</string>
     <string-array name="prices">
         <item>$90.000</item>
         <item>$60.000</item>

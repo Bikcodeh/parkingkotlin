@@ -4,18 +4,19 @@ import com.example.parkingkotlin.database.entity.ClientEntity
 
 interface MainPresenter {
 
-    fun getTotalClients()
+    fun getClients()
 
-    fun getPendingClients()
+    fun updateClients()
+    fun getStatusPaymentList()
 
-    fun onSuccessTotalClients(totalClients: Int?)
-    fun onErrorTotalClients(throwable: Throwable)
-
-    fun onSuccessTotalPaidClients(totalClients: Int?)
-    fun onErrorTotalPaidClients(throwable: Throwable)
-
-    fun onSuccessTotalPendingClients(totalClients: Int?)
-    fun onErrorTotalPendingClients(throwable: Throwable)
+    fun onSuccessStatusPaymentList(statusPaymentList: List<Int>?)
+    fun onErrorStatusPaymentList(throwable: Throwable)
 
     fun onSuccessPendingClients(listPendingClients: List<ClientEntity>)
+
+    fun onSuccessGetClients(listPendingClients: List<ClientEntity>)
+    fun onErrorGetClients(throwable: Throwable)
+
+    fun onSuccessUpdateClients(updated: Boolean)
+    fun onErrorUpdateClients(throwable: Throwable)
 }

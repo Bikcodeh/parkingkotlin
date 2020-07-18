@@ -12,51 +12,79 @@ import kotlin.collections.ArrayList
 
 class MainPresenterImpl(appCompatActivity: AppCompatActivity, application: Application, private val view: MainView): MainPresenter {
 
+    private var listIds: MutableList<Int> = ArrayList();
     private val repository = MainRepositoryImpl(appCompatActivity, application, this)
 
-    override fun getTotalClients() {
-        repository.getTotalClients()
-        repository.getTotalPaidClients()
-        repository.getTotalPendingClients()
+    override fun getStatusPaymentList() {
+        repository.getStatusPaymentList()
     }
 
-    override fun getPendingClients(){
-        val date: String = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).format(Date())
-        repository.getPendingClients(SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse(date))
+    override fun onSuccessStatusPaymentList(statusPaymentList: List<Int>?) {
+        var totalPaid = 0
+        var totalPending = 0
+
+        view.setTotalClients(statusPaymentList?.size)
+
+        if (statusPaymentList != null) {
+            for(status in statusPaymentList){
+                if(status == 1)
+                    totalPaid += 1
+
+                if(status == 0)
+                    totalPending += 1
+            }
+            view.setTotalPaidClients(totalPaid)
+            view.setTotalPendingClients(totalPending)
+        }
     }
 
-    override fun onSuccessTotalClients(totalClients: Int?) {
-        view.setTotalClients(totalClients)
-    }
-
-    override fun onErrorTotalClients(throwable: Throwable) {
-        view.showErrorMessage(throwable)
-    }
-
-    override fun onSuccessTotalPaidClients(totalClients: Int?) {
-        view.setTotalPaidClients(totalClients)
-    }
-
-    override fun onErrorTotalPaidClients(throwable: Throwable) {
-        view.showErrorMessage(throwable)
-    }
-
-    override fun onSuccessTotalPendingClients(totalClients: Int?) {
-        view.setTotalPendingClients(totalClients)
-    }
-
-    override fun onErrorTotalPendingClients(throwable: Throwable) {
+    override fun onErrorStatusPaymentList(throwable: Throwable) {
         view.showErrorMessage(throwable)
     }
 
     override fun onSuccessPendingClients(listPendingClients: List<ClientEntity>) {
 
-        val listIds: MutableList<Int> = ArrayList()
+        /*val listIds: MutableList<Int> = ArrayList()
+        val today = Date()
 
         for (item in listPendingClients){
-           listIds.add(item.clientId)
+            if(today >= listPendingClients[0].dueDate)
+                listIds.add(item.clientId)
         }
-        repository.updateStatusClients(listIds)
+        Log.d("LISTA DE VENCIDOS", listIds.toString())
+        repository.updateStatusClients(listIds)*/
     }
 
+    override fun onSuccessGetClients(listPendingClients: List<ClientEntity>) {
+        if(listPendingClients.isNotEmpty()){
+            val listIds: MutableList<Int> = ArrayList()
+            val today = Date()
+
+            for (item in listPendingClients){
+                if(today >= listPendingClients[0].dueDate)
+                    listIds.add(item.clientId)
+            }
+            this.listIds = listIds
+        }
+    }
+
+    override fun onErrorGetClients(throwable: Throwable) {
+        view.showErrorMessage(throwable)
+    }
+
+    override fun onSuccessUpdateClients(updated: Boolean) {
+        Log.d("Updated", "successfull")
+    }
+
+    override fun onErrorUpdateClients(throwable: Throwable) {
+       view.showErrorMessage(throwable)
+    }
+
+    override fun getClients(){
+        repository.getClients()
+    }
+
+    override fun updateClients() {
+        repository.updateStatusClients(this.listIds)
+    }
 }

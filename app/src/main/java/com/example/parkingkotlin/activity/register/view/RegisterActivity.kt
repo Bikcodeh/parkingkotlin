@@ -1,42 +1,42 @@
 package com.example.parkingkotlin.activity.register.view
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import butterknife.BindView
-import butterknife.ButterKnife
 import android.app.DatePickerDialog
+import android.content.Intent
+import android.os.Build
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
-import android.widget.CompoundButton
-import android.widget.ProgressBar
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.Nullable
+import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
-import butterknife.OnClick
+import butterknife.*
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.example.parkingkotlin.R
 import com.example.parkingkotlin.activity.register.presenter.RegisterPresenterImpl
 import com.example.parkingkotlin.database.entity.ClientEntity
-import com.google.android.material.chip.Chip
+import com.example.parkingkotlin.model.ClientModel
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import com.jaredrummler.materialspinner.MaterialSpinner
 import dmax.dialog.SpotsDialog
 import es.dmoral.toasty.Toasty
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 
-class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButton.OnCheckedChangeListener {
-
+class RegisterActivity : AppCompatActivity(), RegisterActivityView {
 
     lateinit var calendar: Calendar
 
-    var month: Int = 0
-    var year: Int = 0
-    var day: Int = 0
+    private var month: Int = 0
+    private var year: Int = 0
+    private var day: Int = 0
 
     @BindView(R.id.register_tiinputlayout_client_name)
     lateinit var clientNameTextLayout: TextInputLayout
@@ -67,39 +67,71 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButt
     lateinit var clientStartDate: TextInputEditText
 
     @BindView(R.id.register_spinner_prices)
-    lateinit var spinerPrices: MaterialSpinner
+    lateinit var spinerPrices: Spinner
 
     @BindView(R.id.progress_bar)
     lateinit var progressBar: ProgressBar
 
-    @BindView(R.id.register_chip_payment)
-    lateinit var chipPay: Chip
-
-    @BindView(R.id.register_chip_pending)
-    lateinit var chipPending: Chip
-
     @BindView(R.id.main_toolbar)
     lateinit var registerToolbar: Toolbar
 
-    var clientRate: Float = 90F
-    lateinit var registerPresenterImpl: RegisterPresenterImpl
+    @BindString(R.string.register)
+    lateinit var textTitleRegister : String
 
-    lateinit var dialog: android.app.AlertDialog
+    @BindString(R.string.edit)
+    lateinit var textTitleEdit : String
 
-    var clientStatus: Int = 1
+    @BindString(R.string.update)
+    lateinit var textUpdate : String
+
+    @BindView(R.id.register_txt_register)
+    lateinit var titleHead : TextView
+
+    @BindView(R.id.register_btn_register)
+    lateinit var btnRegister : MaterialButton
+
+    @BindView(R.id.register_llayout_radioGroup)
+    lateinit var radioGroup: RadioGroup
+
+    @BindView(R.id.register_radio_paid)
+    lateinit var radioPaid: RadioButton
+
+    @BindView(R.id.register_radio_pending)
+    lateinit var radioPending: RadioButton
+
+    private var clientRate: Double = 90.000
+    private lateinit var registerPresenterImpl: RegisterPresenterImpl
+
+    private lateinit var dialog: android.app.AlertDialog
+
+    private var clientModel: ClientModel? = null
+
+    var isEditing = false
+
+    @BindArray(R.array.prices)
+    lateinit var prices: Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-        initComponents()
-        setOnClicks()
+
+        isEditing = intent.getBooleanExtra("edit", false)
+        initComponents(isEditing)
+
+        if(isEditing){
+            this.clientModel = intent.getSerializableExtra("client") as? ClientModel
+            this.setInputs()
+        }
     }
 
-    private fun initComponents(){
+    @SuppressLint("SetTextI18n")
+    private fun initComponents(isEditing: Boolean){
         ButterKnife.bind(this)
 
         setSupportActionBar(registerToolbar)
-        title = resources.getString(R.string.title_register)
+        title = if(!isEditing) resources.getString(R.string.title_register) else resources.getString(R.string.title_edit)
+        titleHead.text = if (!isEditing) textTitleRegister else textTitleEdit
+        btnRegister.text = if (!isEditing) textTitleRegister else textUpdate
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
@@ -115,63 +147,21 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButt
         clientStartDate.setOnClickListener{
 
             val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, myear, mmonth, mday ->
-                clientStartDate.setText("""${mday.twoDigits()}-${(mmonth + 1).twoDigits()}-$myear""")
+                clientStartDate.setText("${mday.twoDigits()}-${(mmonth + 1).twoDigits()}-$myear")
             }, year, month, day)
             dpd.show()
         }
 
-        spinerPrices.setItems("Tarifa", "$90.000", "$60.000", "$40.000")
+        val adapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, prices)
+        spinerPrices.adapter = adapter
 
-        spinerPrices.setOnItemSelectedListener { view, position, id, item ->
-            if(position != 0)
-                clientRate = convertToFloat(item.toString())
-        }
-
-
-    }
-
-    private fun setOnClicks(){
-        chipPay.setOnCheckedChangeListener(this)
-        chipPending.setOnCheckedChangeListener(this)
-    }
-
-    override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-        when(buttonView?.id){
-            R.id.register_chip_payment -> {
-                this.clientStatus = 1
-                changeBackgroundChipSelected(chipPay, R.color.green, R.color.very_light_gray, isChecked)
-                enableDisableChips(chipPending, isChecked)
+        spinerPrices.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(p0: AdapterView<*>?) {
             }
-            R.id.register_chip_pending -> {
-                this.clientStatus = 0
-                changeBackgroundChipSelected(chipPending, R.color.brown_shadow, R.color.very_light_gray, isChecked)
-                enableDisableChips(chipPay, isChecked)
+
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+                clientRate =  prices[position].replace("$", "").toDouble()
             }
-        }
-    }
-
-    private fun changeBackgroundChipSelected(
-        chip: Chip,
-        colorChecked: Int,
-        colorNotChecked: Int,
-        checked: Boolean
-    ) {
-        if(checked){
-            chip.setChipBackgroundColorResource(colorChecked)
-            chip.setTextColor(ContextCompat.getColor(this, R.color.white))
-        }else{
-            chip.setChipBackgroundColorResource(colorNotChecked)
-            chip.setTextColor(ContextCompat.getColor(this, R.color.black))
-        }
-    }
-
-    private fun enableDisableChips(option: Chip, checked: Boolean) {
-        if (checked) {
-            option.isEnabled = false
-            option.setTextColor(ContextCompat.getColor(this, R.color.light_gray))
-        }else{
-            option.isEnabled = true
-            option.setTextColor(ContextCompat.getColor(this, R.color.black))
         }
     }
 
@@ -197,22 +187,40 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButt
             calendar.add(Calendar.MONTH, 1)
             date = calendar.time
 
-            val clientEntity = ClientEntity(
-                clientName = this.clientName.text.toString(),
-                clientIdentification = this.clientIdentification?.text.toString(),
-                clientActive = this.clientStatus,
-                clientPlaque = this.clientPlaque.text.toString(),
-                clientRate = this.clientRate,
-                clientPhone = this.clientPhone?.text.toString(),
-                startDate = stringToDate(this.clientStartDate.text.toString()),
-                dueDate = date
-            )
+            var status = 1
 
-            registerPresenterImpl.registerClient(clientEntity)
+            if(radioGroup.checkedRadioButtonId == R.id.register_radio_paid)
+                status = 1
+            if(radioGroup.checkedRadioButtonId == R.id.register_radio_pending)
+                status = 0
+
+
+            if(this.isEditing) {
+
+                val client = ClientModel(this.clientModel?.clientId, this.clientName.text.toString(),
+                    this.clientIdentification?.text.toString(), this.clientPhone?.text.toString(),
+                    this.clientPlaque.text.toString(), this.clientRate,
+                    stringToDate(this.clientStartDate.text.toString()), status, 1)
+
+                registerPresenterImpl.updateClient(client)
+            } else {
+                val clientEntity = ClientEntity(
+                    clientName = this.clientName.text.toString(),
+                    clientIdentification = this.clientIdentification?.text.toString(),
+                    clientActive = 1,
+                    clientPlaque = this.clientPlaque.text.toString(),
+                    clientRate = this.clientRate,
+                    clientPhone = this.clientPhone?.text.toString(),
+                    startDate = stringToDate(this.clientStartDate.text.toString()),
+                    statusPayment = status,
+                    dueDate = date
+                )
+
+                registerPresenterImpl.registerClient(clientEntity)
+            }
         }else{
             Toasty.warning(this, "Campos obligatorios", Toast.LENGTH_SHORT).show()
         }
-
     }
 
     private fun validateFields(listTextInputEditText: List<TextInputEditText>, listTextInputLayout: List<TextInputLayout>): Boolean {
@@ -261,5 +269,30 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityView, CompoundButt
         this.clientName.setText("")
         this.clientPlaque.setText("")
         this.clientPhone?.setText("")
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun setInputs() {
+        this.clientIdentification?.setText(this.clientModel?.clientIdentification)
+        val format = SimpleDateFormat("yyyy-MM-dd")
+        val date = format.format(this.clientModel?.startDate)
+        this.clientStartDate.setText(date)
+        this.clientName.setText(this.clientModel?.clientName)
+        this.clientPlaque.setText(this.clientModel?.clientPlaque)
+        this.clientPhone?.setText(this.clientModel?.clientPhone)
+        if(this.clientModel?.statusPayment == 1){
+            this.radioPaid.isChecked = true
+        } else {
+            this.radioPending.isChecked = true
+        }
+        this.spinerPrices.setSelection(this.prices.indexOf("$${this.clientModel?.clientRate}00"))
+    }
+
+    override fun closeActivity() {
+        val result = Intent()
+        result.putExtra("update", true)
+        setResult(Activity.RESULT_OK, result)
+        this.finish()
     }
 }

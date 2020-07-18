@@ -3,8 +3,10 @@ package com.example.parkingkotlin.util
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Intent
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -13,8 +15,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.content.ContextCompat
 import com.example.parkingkotlin.R
+import com.example.parkingkotlin.activity.register.view.RegisterActivity
 import com.example.parkingkotlin.events.ClientEvent
 import com.example.parkingkotlin.events.ClientUpdateEvent
+import com.example.parkingkotlin.model.ClientModel
 import com.google.android.material.button.MaterialButton
 import es.dmoral.toasty.Toasty
 import org.greenrobot.eventbus.EventBus
@@ -31,10 +35,12 @@ class DetailClientDialog(val activity: AppCompatActivity): AppCompatDialogFragme
     private lateinit var clientStartDate: TextView
     private lateinit var clientDueDate: TextView
     private lateinit var buttonPaid: MaterialButton
+    private lateinit var buttonEdit: MaterialButton
     private var clientId: Int? = null
     private val clientStatusPaid = 1
     private var dueDateUpdate: Date? = null
     private lateinit var calendar: Calendar
+    private lateinit var clientModel: ClientModel
 
     @SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -54,6 +60,7 @@ class DetailClientDialog(val activity: AppCompatActivity): AppCompatDialogFragme
         clientDueDate = view.findViewById(R.id.detail_client_txt_due_date)
         clientDueDate.setTextColor(ContextCompat.getColor(view.context, R.color.brown_shadow))
         buttonPaid = view.findViewById(R.id.detail_client_btn_paid)
+        buttonEdit = view.findViewById(R.id.detail_client_btn_edit)
 
         calendar = Calendar.getInstance()
 
@@ -63,10 +70,23 @@ class DetailClientDialog(val activity: AppCompatActivity): AppCompatDialogFragme
             dismiss()
         }
 
+        buttonEdit.setOnClickListener {
+            val intent = Intent(it.context, RegisterActivity::class.java).apply {
+                putExtra("edit", true)
+                putExtra("client", clientModel)
+            }
+            this.activity.startActivityForResult(intent, 1)
+            dismiss()
+        }
+
         imageClose.setOnClickListener{
             dismiss()
         }
         return builder.create()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onStart() {
@@ -79,6 +99,7 @@ class DetailClientDialog(val activity: AppCompatActivity): AppCompatDialogFragme
         super.onStop()
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun dateFormat(date: Date): String{
         return SimpleDateFormat("dd-MM-yyyy").format(date)
     }
@@ -89,12 +110,18 @@ class DetailClientDialog(val activity: AppCompatActivity): AppCompatDialogFragme
         clientIdentification.text = String.format("Cedula: %s" ,clientEvent.clientEntity.clientIdentification)
         clientPhone.text = String.format("Celular: %s", clientEvent.clientEntity.clientPhone)
         clientPlaque.text = String.format("Placa: %s", clientEvent.clientEntity.clientPlaque)
-        clientRate.text = String.format("Tarifa: %s",clientEvent.clientEntity.clientRate.toString())
+        clientRate.text = String.format("Tarifa: %s",clientEvent.clientEntity.clientRate.toString()+"00")
         clientStartDate.text = String.format("Fecha de ingreso: %s", dateFormat(clientEvent.clientEntity.startDate))
         clientDueDate.text = String.format("Próximo corte: %s", dateFormat(clientEvent.clientEntity.dueDate))
         clientId = clientEvent.clientEntity.clientId
 
-        if(clientEvent.clientEntity.clientActive == 0){
+        this.clientModel = ClientModel(clientEvent.clientEntity.clientId,
+            clientEvent.clientEntity.clientName, clientEvent.clientEntity.clientIdentification,
+            clientEvent.clientEntity.clientPhone, clientEvent.clientEntity.clientPlaque,
+            clientEvent.clientEntity.clientRate, clientEvent.clientEntity.startDate,
+            clientEvent.clientEntity.statusPayment, 1)
+
+        if(clientEvent.clientEntity.statusPayment == 0){
             buttonPaid.visibility = View.VISIBLE
             calendar.time = clientEvent.clientEntity.dueDate
             calendar.add(Calendar.MONTH, 1)

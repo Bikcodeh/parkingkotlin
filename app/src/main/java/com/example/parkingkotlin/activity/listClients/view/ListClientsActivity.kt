@@ -1,26 +1,27 @@
 package com.example.parkingkotlin.activity.listClients.view
 
 import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.example.parkingkotlin.R
-import com.example.parkingkotlin.activity.listClients.presenter.ListClientsPresenter
 import com.example.parkingkotlin.activity.listClients.presenter.ListClientsPresenterImpl
 import com.example.parkingkotlin.adapter.ClientAdapter
 import com.example.parkingkotlin.database.entity.ClientEntity
 import es.dmoral.toasty.Toasty
-import java.util.ArrayList
+import java.util.*
+
 
 class ListClientsActivity : AppCompatActivity(), ListClientsView {
 
@@ -41,6 +42,9 @@ class ListClientsActivity : AppCompatActivity(), ListClientsView {
 
     @BindView(R.id.list_clients_txt_not_result)
     lateinit var notResultsTxt: TextView
+
+    @BindView(R.id.list_clients_edtext_search)
+    lateinit var searchLayout: LinearLayout
 
     lateinit var presenter: ListClientsPresenterImpl
 
@@ -120,11 +124,13 @@ class ListClientsActivity : AppCompatActivity(), ListClientsView {
     override fun hideEmptyClients() {
         layoutEmptyClients.visibility = View.GONE
         recyclerClients.visibility = View.VISIBLE
+        searchLayout.visibility = View.VISIBLE
     }
 
     override fun showEmptyClients() {
         layoutEmptyClients.visibility = View.VISIBLE
         recyclerClients.visibility = View.GONE
+        searchLayout.visibility = View.GONE
     }
 
     override fun onStart() {
@@ -155,5 +161,10 @@ class ListClientsActivity : AppCompatActivity(), ListClientsView {
             notResultsTxt.visibility = View.GONE
             recyclerClients.visibility = View.VISIBLE
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Toasty.success(this, resources.getString(R.string.update_success), Toast.LENGTH_SHORT).show()
     }
 }

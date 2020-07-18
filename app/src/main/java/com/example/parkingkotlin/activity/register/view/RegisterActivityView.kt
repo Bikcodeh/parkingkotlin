@@ -9,4 +9,8 @@ interface RegisterActivityView {
     fun showErrorMessage(throwable: Throwable)
 
     fun clearInputs()
+
+    fun setInputs()
+
+    fun closeActivity()
 }

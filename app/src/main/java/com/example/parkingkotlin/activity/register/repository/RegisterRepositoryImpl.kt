@@ -6,6 +6,7 @@ import com.example.parkingkotlin.activity.register.presenter.RegisterPresenter
 import com.example.parkingkotlin.database.dao.ClientDao
 import com.example.parkingkotlin.database.db.ClientsDatabase
 import com.example.parkingkotlin.database.entity.ClientEntity
+import com.example.parkingkotlin.model.ClientModel
 import java.lang.Exception
 
 class RegisterRepositoryImpl(application: Application, private val registerPresenter: RegisterPresenter): RegisterRepository {
@@ -22,6 +23,20 @@ class RegisterRepositoryImpl(application: Application, private val registerPrese
                 registerPresenter.onSaveError(e as Throwable)
             }
         }
+    }
+
+    override fun updateClient(client: ClientModel) {
+     try {
+         kotlin.run {
+             clientDao?.updateClient(client.clientName, client.clientIdentification,
+                 client.clientPlaque, client.clientRate, client.clientPhone, client.statusPayment,
+                 client.clientId, client.startDate, client.clientActive)
+             registerPresenter.onSuccessUpdate(true)
+         }
+     }catch (exception: Exception){
+         Log.d("ERROR ACTUALIZANDO USUARIO ", "${exception.message}")
+         registerPresenter.onUpdateError(exception as Throwable)
+     }
     }
 
     override fun updateUser() {

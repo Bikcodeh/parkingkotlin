@@ -14,25 +14,26 @@ interface ClientDao {
     @Update
     fun update(clientEntity: ClientEntity)
 
-    @Query("UPDATE ${ClientEntity.TABLE_NAME} SET active = :activeStatus, dueDate = :date  WHERE id_cliente = :clientId")
+    @Query("UPDATE ${ClientEntity.TABLE_NAME} SET statusPayment = :activeStatus, dueDate = :date  WHERE id_cliente = :clientId")
     fun updateStatus(activeStatus: Int?, clientId: Int?, date: Date?): Int
 
-    @Query("UPDATE ${ClientEntity.TABLE_NAME} SET active = 0 WHERE id_cliente in (:ids)")
+    @Query("UPDATE ${ClientEntity.TABLE_NAME} SET name = :clientName, identification = :clientIdentification,  plaque = :clientPlaque, rate = :clientRate, phone = :clientPhone, statusPayment = :clientStatusPayment, startDate = :clientDate, active = :clientActive  WHERE id_cliente = :clientId")
+    fun updateClient(clientName: String, clientIdentification: String, clientPlaque: String,
+                     clientRate: Double, clientPhone: String, clientStatusPayment: Int?, clientId: Int?,
+                     clientDate: Date?, clientActive: Int?): Int
+
+    @Query("UPDATE ${ClientEntity.TABLE_NAME} SET statusPayment = 0 WHERE id_cliente in (:ids)")
     fun updateStatusClients(ids: List<Int>?)
 
     @Delete
     fun delete(clientEntity: ClientEntity)
 
-    @Query("SELECT * FROM ${ClientEntity.TABLE_NAME} ORDER BY name")
+    @Query("SELECT * FROM ${ClientEntity.TABLE_NAME} WHERE active = 1 ORDER BY name ")
     fun getClients(): LiveData<List<ClientEntity>>
+
+    @Query("SELECT statusPayment FROM ${ClientEntity.TABLE_NAME} WHERE active = 1")
+    fun getStatusPaymentList(): LiveData<List<Int>>
 
     @Query("SELECT * FROM ${ClientEntity.TABLE_NAME} WHERE dueDate = :dueDateClient")
     fun getClientsPending(dueDateClient: Date?): LiveData<List<ClientEntity>>
-
-    @Query("SELECT COUNT(*) FROM ${ClientEntity.TABLE_NAME}")
-    fun getTotalClients(): LiveData<Int>
-
-    @Query("SELECT COUNT(*) FROM ${ClientEntity.TABLE_NAME} WHERE active = :activeUser")
-    fun getTotalClientsFiltering(activeUser: Int): LiveData<Int>
-
 }

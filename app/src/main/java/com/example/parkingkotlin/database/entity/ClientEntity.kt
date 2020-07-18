@@ -13,9 +13,10 @@ class ClientEntity(
     @ColumnInfo(name = "identification") val clientIdentification: String,
     @ColumnInfo(name = "phone") val clientPhone: String,
     @ColumnInfo(name = "plaque") @NotNull val clientPlaque: String,
-    @ColumnInfo(name = "rate") @NotNull val clientRate: Float,
+    @ColumnInfo(name = "rate") @NotNull val clientRate: Double,
     @ColumnInfo(name = "startDate") @NotNull val startDate: Date,
     @ColumnInfo(name = "dueDate") @NotNull val dueDate: Date,
+    @ColumnInfo(name = "statusPayment") @NotNull val statusPayment: Int,
     @ColumnInfo(name = "active") @NotNull val clientActive: Int
 ){
     companion object{

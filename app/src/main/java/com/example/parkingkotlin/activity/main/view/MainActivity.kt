@@ -43,14 +43,14 @@ class MainActivity : AppCompatActivity(), MainView {
         title = getString(R.string.title_main)
 
         presenter = MainPresenterImpl(this ,application, this)
-        presenter.getPendingClients()
-        presenter.getTotalClients()
+        //presenter.getPendingClients()
+        presenter.getClients()
+        presenter.updateClients()
+        presenter.getStatusPaymentList()
     }
 
     override fun onResume() {
         super.onResume()
-        presenter.getPendingClients()
-        presenter.getTotalClients()
     }
 
     @OnClick(R.id.main_llyout_register)
